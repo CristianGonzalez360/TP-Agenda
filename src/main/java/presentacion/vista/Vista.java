@@ -33,7 +33,6 @@ public class Vista
 		initialize();
 	}
 
-
 	private void initialize() 
 	{
 		frame = new JFrame();
