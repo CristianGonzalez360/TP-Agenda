@@ -30,13 +30,13 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4, persona.getCalle());
-			statement.setDate(5, new Date(persona.getNacimiento().getTime()));
+			statement.setDate(5, new Date(persona.getNacimiento().getTime()));   //Falla por aca 
 			statement.setInt(6, persona.getAltura());
 			statement.setInt(7, persona.getPiso());
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
-			statement.setInt(10, persona.getLocalidad().getIdLocalidad());
-			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto());
+			statement.setInt(10, persona.getLocalidad().getIdLocalidad());       //Falla por aca 
+			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto());  //Falla por aca 
 			if(statement.executeUpdate() > 0)
 				ret =  true;
 		} 
@@ -115,13 +115,13 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(1, persona.getNombre());
 			statement.setString(2, persona.getTelefono());
 			statement.setString(3, persona.getCalle());
-			statement.setDate(4, new Date(persona.getNacimiento().getTime()));
+			statement.setDate(4, new Date(persona.getNacimiento().getTime()));     //Falla por aca 
 			statement.setInt(5, persona.getAltura());
 			statement.setInt(6, persona.getPiso());
 			statement.setString(7, persona.getDepartamento());
 			statement.setString(8, persona.getEmail());
-			statement.setInt(9, persona.getLocalidad().getIdLocalidad());
-			statement.setInt(10, persona.getTipoContacto().getIdTipoContacto());
+			statement.setInt(9, persona.getLocalidad().getIdLocalidad());          //Falla por aca 
+			statement.setInt(10, persona.getTipoContacto().getIdTipoContacto());    //Falla por aca 
 			statement.setInt(11,persona.getIdPersona());
 			if(statement.executeUpdate() > 0)
 				ret = true;
