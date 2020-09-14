@@ -167,7 +167,7 @@ public class VentanaPersona extends JFrame
 	}
 	
 	
-	//Getters
+	//Getter
 	
 	public JTextField getTxtNombre() 
 	{
