@@ -1,11 +1,19 @@
 package presentacion.vista;
 
+import java.util.Date;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
+
+import dto.LocalidadDTO;
+import dto.TipoContactoDTO;
 
 public class VentanaPersona extends JFrame 
 {
@@ -15,13 +23,13 @@ public class VentanaPersona extends JFrame
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
 	private JTextField txtCalle;
-	private JTextField txtNacimiento;
+	private JDateChooser chooserNacimiento;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
 	private JTextField txtDepartamento;
 	private JTextField txtEmail;
-	private JTextField txtLocalidad;
-	private JTextField txtTipoContacto;
+	private JComboBox<LocalidadDTO> comboLocalidad;
+	private JComboBox<TipoContactoDTO> comboTipoContacto;
 	
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
@@ -112,10 +120,9 @@ public class VentanaPersona extends JFrame
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 				
-		txtNacimiento = new JTextField();
-		txtNacimiento.setBounds(133, 150, 164, 20);
-		panel.add(txtNacimiento);
-		txtNacimiento.setColumns(10);
+		chooserNacimiento = new JDateChooser();
+		chooserNacimiento.setBounds(133, 150, 164, 20);
+		panel.add(chooserNacimiento);
 		
 		txtAltura = new JTextField();
 		txtAltura.setBounds(133, 200, 164, 20);
@@ -137,16 +144,13 @@ public class VentanaPersona extends JFrame
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 		
-		txtLocalidad = new JTextField();
-		txtLocalidad.setBounds(133, 400, 164, 20);
-		panel.add(txtLocalidad);
-		txtLocalidad.setColumns(10);
+		comboLocalidad = new JComboBox<>();
+		comboLocalidad.setBounds(133, 400, 164, 20);
+		panel.add(comboLocalidad);
 				
-		txtTipoContacto = new JTextField();
-		txtTipoContacto.setBounds(133, 450, 164, 20);
-		panel.add(txtTipoContacto);
-		txtTipoContacto.setColumns(10);
-		
+		comboTipoContacto = new JComboBox<>();
+		comboTipoContacto.setBounds(133, 450, 164, 20);
+		panel.add(comboTipoContacto);
 		
 		// Boton
 		
@@ -180,9 +184,9 @@ public class VentanaPersona extends JFrame
 		return txtCalle;
 	}
 
-	public JTextField getTxtNacimiento()
+	public JDateChooser getChooserNacimiento()
 	{
-		return txtNacimiento;
+		return chooserNacimiento;
 	}
 	
 	public JTextField getTxtAltura() 
@@ -205,14 +209,14 @@ public class VentanaPersona extends JFrame
 		return txtEmail;
 	}
 	
-	public JTextField getTxtLocalidad() 
+	public JComboBox<LocalidadDTO> getComboLocalidad() 
 	{
-		return txtLocalidad;
+		return comboLocalidad;
 	}
 
-	public JTextField getTxtTipoContacto() 
+	public JComboBox<TipoContactoDTO> getComboTipoContacto() 
 	{
-		return txtTipoContacto;
+		return comboTipoContacto;
 	}
 
 	public JButton getBtnAgregarPersona() 
@@ -220,7 +224,6 @@ public class VentanaPersona extends JFrame
 		return btnAgregarPersona;
 	}
 
-	
 	//Cerrar
 	
 	public void cerrar()
@@ -229,13 +232,13 @@ public class VentanaPersona extends JFrame
 		 this.txtNombre.setText(null);
 		 this.txtTelefono.setText(null);
 		 this.txtCalle.setText(null);
-		 this.txtNacimiento.setText(null);
+		 this.chooserNacimiento.setDate(new Date());
 		 this.txtAltura.setText(null);
 		 this.txtPiso.setText(null);
 		 this.txtDepartamento.setText(null);
 		 this.txtEmail.setText(null);
-		 this.txtLocalidad.setText(null);
-		 this.txtTipoContacto.setText(null);
+		 this.comboLocalidad.setSelectedIndex(-1);
+		 this.comboTipoContacto.setSelectedIndex(-1);;
 
 		 this.dispose();
 	}

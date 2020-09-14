@@ -2,6 +2,8 @@ package presentacion.vista;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -50,7 +52,12 @@ public class Vista
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
-		tablaPersonas = new JTable(modelPersonas);
+		tablaPersonas = new JTable(modelPersonas) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
@@ -131,14 +138,30 @@ public class Vista
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
-
-		for (PersonaDTO p : personasEnTabla)
-		{
-			String nombre = p.getNombre();
-			String tel = p.getTelefono();
-			Object[] fila = {nombre, tel};
-			this.getModelPersonas().addRow(fila);
-		}
 		
+		for (PersonaDTO persona : personasEnTabla)
+		{
+			Object[] fila = {
+					persona.getNombre(), 
+					persona.getTelefono(),
+					persona.getCalle(),
+					getFecha(persona.getNacimiento()),
+					persona.getAltura(),
+					persona.getPiso(),
+					persona.getDepartamento(),
+					persona.getEmail(),
+					persona.getLocalidad().getNombre(),
+					persona.getTipoContacto().getTipo()};
+			this.getModelPersonas().addRow(fila);
+		}			
+	}
+	
+	private String getFecha(Date d)	{
+		SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy");
+		if (d != null) {
+			return Formato.format(d);
+		} else {
+			return null;
+		}
 	}
 }

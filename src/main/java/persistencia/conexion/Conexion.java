@@ -20,7 +20,7 @@ public class Conexion
 			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda?autoReconnect=true&useSSL=false","root","root");
 		// le agregue ?autoReconnect=true&useSSL=false para evitar el warning--
 			
-			this.connection.setAutoCommit(false);
+			//this.connection.setAutoCommit(false); saque esto porque sino no guarda.
 			log.info("Conexión exitosa");
 		}
 		catch(Exception e)
