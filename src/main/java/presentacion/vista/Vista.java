@@ -1,5 +1,6 @@
 package presentacion.vista;
 
+import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
@@ -43,13 +44,12 @@ public class Vista
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+		frame.setContentPane(panel);
+		panel.setLayout(new BorderLayout());
 		
 		JScrollPane spPersonas = new JScrollPane();
 		spPersonas.setBounds(10, 11, 414, 182);
-		panel.add(spPersonas);
+		panel.add(spPersonas, BorderLayout.CENTER);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas) {
@@ -66,21 +66,21 @@ public class Vista
 		
 		spPersonas.setViewportView(tablaPersonas);
 		
+		JPanel botones = new JPanel();
+		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(10, 228, 89, 23);
-		panel.add(btnAgregar);
+		botones.add(btnAgregar);
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 228, 89, 23);
-		panel.add(btnEditar);
+		botones.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 228, 89, 23);
-		panel.add(btnBorrar);
+		botones.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(307, 228, 89, 23);
-		panel.add(btnReporte);
+		botones.add(btnReporte);
+		
+		panel.add(botones, BorderLayout.SOUTH);
 	}
 	
 	public void show()
