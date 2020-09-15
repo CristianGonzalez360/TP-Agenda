@@ -25,6 +25,9 @@ public class Vista
 	private JFrame frame;
 	private JTable tablaPersonas;
 	private JButton btnAgregar;
+	
+	private JButton btnEditar; // Editar
+	
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
@@ -71,7 +74,7 @@ public class Vista
 		btnAgregar = new JButton("Agregar");
 		botones.add(btnAgregar);
 		
-		JButton btnEditar = new JButton("Editar");
+	    btnEditar = new JButton("Editar");
 		botones.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
@@ -108,6 +111,13 @@ public class Vista
 		return btnAgregar;
 	}
 
+	
+	public JButton getBtnEditar()   //Editar
+	{
+		return btnEditar;
+	}
+	
+	
 	public JButton getBtnBorrar() 
 	{
 		return btnBorrar;

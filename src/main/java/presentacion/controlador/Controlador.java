@@ -19,11 +19,13 @@ public class Controlador implements ActionListener {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
 	private VentanaPersona ventanaPersona;
+	
+	
 	private Agenda agenda;
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
-		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
+		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));			
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
 		this.ventanaPersona = VentanaPersona.getInstance();
@@ -48,6 +50,10 @@ public class Controlador implements ActionListener {
 
 		this.ventanaPersona.mostrarVentana();
 	}
+	
+	
+	
+	
 
 	private void guardarPersona(ActionEvent p) {
 		String nombre = this.ventanaPersona.getTxtNombre().getText();
