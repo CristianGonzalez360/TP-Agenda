@@ -150,8 +150,8 @@ public class Vista
 					persona.getPiso(),
 					persona.getDepartamento(),
 					persona.getEmail(),
-					persona.getLocalidad().getNombre(),
-					persona.getTipoContacto().getTipo()};
+					1,     //persona.getLocalidad().getNombre(),          -------- Para arreglar
+					1};    //persona.getTipoContacto().getTipo()};        -------  Para arreglar
 			this.getModelPersonas().addRow(fila);
 		}			
 	}

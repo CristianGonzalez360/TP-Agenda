@@ -35,11 +35,11 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
 
-			statement.setInt(10, persona.getLocalidad().getIdLocalidad()); // Falla por aca
-			//statement.setInt(10, 1);
+			//statement.setInt(10, persona.getLocalidad().getIdLocalidad()); // Falla por aca
+			statement.setInt(10, 1);
 
-			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto()); // Falla por aca
-			//statement.setInt(11, 1);
+			//statement.setInt(11, persona.getTipoContacto().getIdTipoContacto()); // Falla por aca
+			statement.setInt(11, 1);
 
 			if (statement.executeUpdate() > 0)
 				ret = true;
@@ -103,8 +103,14 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setInt(6, persona.getPiso());
 			statement.setString(7, persona.getDepartamento());
 			statement.setString(8, persona.getEmail());
-			statement.setInt(9, persona.getLocalidad().getIdLocalidad()); // Falla por aca
-			statement.setInt(10, persona.getTipoContacto().getIdTipoContacto()); // Falla por aca
+			
+			//statement.setInt(9, persona.getLocalidad().getIdLocalidad()); // Falla por aca
+			statement.setInt(9, 1); // Falla por aca
+			
+			
+			//statement.setInt(10, persona.getTipoContacto().getIdTipoContacto()); // Falla por aca
+			statement.setInt(10, 1);
+			
 			statement.setInt(11, persona.getIdPersona());
 			if (statement.executeUpdate() > 0)
 				ret = true;
