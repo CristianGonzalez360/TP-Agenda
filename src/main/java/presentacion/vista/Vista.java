@@ -44,6 +44,8 @@ public class Vista {
 	}
 
 	private void initialize() {
+		
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,6 +101,8 @@ public class Vista {
 		mnAdministracin.add(mntmTiposDeContacto);
 
 		panel.add(botones, BorderLayout.SOUTH);
+		
+		
 	}
 
 	public void show() {
@@ -158,9 +162,8 @@ public class Vista {
 		for (PersonaDTO persona : personasEnTabla) {
 			Object[] fila = { persona.getNombre(), persona.getTelefono(), persona.getCalle(),
 					getFecha(persona.getNacimiento()), persona.getAltura(), persona.getPiso(),
-					persona.getDepartamento(), persona.getEmail(), persona.getLocalidad().getNombre(), // -------- Para
-																										// arreglar
-					persona.getTipoContacto().getTipo() }; // ------- Para arreglar
+					persona.getDepartamento(), persona.getEmail(), persona.getLocalidad().getNombre(),
+					persona.getTipoContacto().getTipo() }; 
 			this.getModelPersonas().addRow(fila);
 		}
 	}

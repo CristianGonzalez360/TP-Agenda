@@ -10,6 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.EditorLocalidad;
+import presentacion.vista.EditorPersona;
 import presentacion.vista.VentanaLocalidades;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
@@ -26,11 +27,16 @@ public class Controlador implements ActionListener {
 	private EditorLocalidad editorLocalidad;
 	private VentanaLocalidades ventanaLocalidades;
 	
+	private EditorPersona editorPersona;
+	
 	private Agenda agenda;
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
-		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));			
+		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
+		
+		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
+		
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
 		this.vista.getMntmLocalidades().addActionListener(l -> ventanaLocalidades(l));
@@ -42,6 +48,10 @@ public class Controlador implements ActionListener {
 		this.ventanaLocalidades.getBtnAgregar().addActionListener(a -> ventanaAgregarLocalidad(a));
 		this.ventanaLocalidades.getBtnEditar().addActionListener(e -> editarLocalidad(e));
 		this.ventanaLocalidades.getBtnBorrar().addActionListener(b -> borrarLocalidad(b));
+		
+		this.editorPersona = EditorPersona.getInstance();
+		//this.editorPersona.getBtnAgregarPersona().addActionListener(k -> modificarPersona(k));
+		
 		this.agenda = agenda;
 	}
 
@@ -62,6 +72,16 @@ public class Controlador implements ActionListener {
 
 		this.ventanaPersona.mostrarVentana();
 	}
+	
+	private void modificarPersona(ActionEvent k) {
+		
+			
+		this.editorPersona.mostrarVentana();
+		
+	}
+	
+	
+	
 	
 	private void guardarPersona(ActionEvent p) {
 		String nombre = this.ventanaPersona.getTxtNombre().getText();

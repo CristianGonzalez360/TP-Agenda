@@ -16,7 +16,7 @@ public class PersonaDTO
 	private String email;
 	private TipoContactoDTO tipoContacto;
 
-	public PersonaDTO(int idPersona, String nombre, String telefono)
+	public PersonaDTO(int idPersona, String nombre, String telefono) /// borrar??
 	{
 		this.idPersona = idPersona;
 		this.nombre = nombre;

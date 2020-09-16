@@ -42,7 +42,7 @@ public class VentanaPersona extends JFrame {
 
 	private VentanaPersona() {
 		super();
-
+		this.setTitle("Agregar Contacto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 343, 600);
 		contentPane = new JPanel();

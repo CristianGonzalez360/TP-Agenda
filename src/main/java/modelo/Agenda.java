@@ -24,6 +24,11 @@ public class Agenda {
 	public void agregarPersona(PersonaDTO nuevaPersona) {
 		this.persona.insert(nuevaPersona);
 	}
+	
+	public void modificarPersona(PersonaDTO persona_a_modificar) {
+		this.persona.update(persona_a_modificar);
+	}
+	
 
 	public void borrarPersona(PersonaDTO persona_a_eliminar) {
 		this.persona.delete(persona_a_eliminar);
