@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import dto.PaisDTO;
+import dto.ProvinciaDTO;
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.PaisDAO;
 
@@ -95,6 +96,27 @@ public class PaisDAOSQL implements PaisDAO {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	@Override
+	public PaisDTO get(int id) {
+		String query = "SELECT * FROM pais WHERE idPais = ?";
+		ResultSet resultSet;
+		PaisDTO pais = null;
+		Conexion conexion = Conexion.getConexion();
+		PreparedStatement statement;
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(query);
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				pais = new PaisDTO(resultSet.getString("nombre"));
+				pais.setId(resultSet.getInt("idPais"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pais;
 	}
 
 }

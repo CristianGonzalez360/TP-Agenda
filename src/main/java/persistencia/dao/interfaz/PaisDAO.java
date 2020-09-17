@@ -13,4 +13,6 @@ public interface PaisDAO {
 	public List<PaisDTO> readAll();
 	
 	public boolean update(PaisDTO pais);
+
+	public PaisDTO get(int id);
 }

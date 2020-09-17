@@ -112,9 +112,11 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 			statement = conexion.getSQLConexion().prepareStatement(query);
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
+			ProvinciaDAOSQL provincia = new ProvinciaDAOSQL();
 			while (resultSet.next()) {
 				localidad = new LocalidadDTO(resultSet.getString("nombre"));
 				localidad.setId(resultSet.getInt("idlocalidad"));
+				localidad.setProvincia(provincia.get(resultSet.getInt("provincia")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

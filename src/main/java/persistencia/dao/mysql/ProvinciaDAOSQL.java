@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
+import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import persistencia.conexion.Conexion;
@@ -99,6 +100,28 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	public ProvinciaDTO get(int id) {
+		String query = "SELECT * FROM provincia WHERE idProvincia = ?";
+		ResultSet resultSet;
+		ProvinciaDTO provincia = null;
+		Conexion conexion = Conexion.getConexion();
+		PreparedStatement statement;
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(query);
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			PaisDAOSQL pais = new PaisDAOSQL();
+			while (resultSet.next()) {
+				provincia = new ProvinciaDTO(resultSet.getString("nombre"));
+				provincia.setId(resultSet.getInt("idProvincia"));
+				provincia.setPais(pais.get(resultSet.getInt("pais")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return provincia;
 	}
 
 }

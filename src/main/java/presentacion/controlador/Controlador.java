@@ -1,16 +1,11 @@
 package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
-
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.EditorTipoContacto;
-//import presentacion.vista.EditorPersona;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoDeContacto;
 import presentacion.vista.Vista;
@@ -19,18 +14,18 @@ import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
 
-public class Controlador implements ActionListener {
+public class Controlador {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
-	private List<TipoContactoDTO> localidades;
+	private List<TipoContactoDTO> tiposContacto;
 	private TipoContactoDTO tipoContactoSeleccionado;
+	private PersonaDTO personaSeleccionada;
 	private VentanaPersona ventanaPersona;
 	private EditorTipoContacto editorTipoContacto;
 	private VentanaTipoDeContacto ventanaTipoContacto;
 	
 	private VistaEditor vistaEditor;
 	private ControladorEditor controladorEditor;
-	//private EditorPersona editorPersona;
 	
 	private Agenda agenda;
 
@@ -39,6 +34,7 @@ public class Controlador implements ActionListener {
 		this.agenda = agenda;
 		this.ventanaTipoContacto = VentanaTipoDeContacto.getInstance();
 		this.editorTipoContacto = EditorTipoContacto.getInstance();
+		this.ventanaPersona = VentanaPersona.getInstance();
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -51,16 +47,12 @@ public class Controlador implements ActionListener {
 		this.ventanaTipoContacto.getBtnEditar().addActionListener(ec -> editarTipoContacto(ec));
 		this.ventanaTipoContacto.getBtnBorrar().addActionListener(bc -> borrarTipoContacto(bc));
 		this.editorTipoContacto.getBtnAceptar().addActionListener(gc -> guardarTipoContacto(gc));
-		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
 		
 		this.vistaEditor = new VistaEditor();
 		this.controladorEditor = new ControladorEditor(vistaEditor, agenda);
 		
-		//this.editorPersona = EditorPersona.getInstance();
-		//this.editorPersona.getBtnAgregarPersona().addActionListener(k -> modificarPersona(k));
-		
-		
+		refrescarVentanaPersonas();
 	}
 
 	private void editarLocalidades(ActionEvent l) {
@@ -79,16 +71,18 @@ public class Controlador implements ActionListener {
 	}
 
 	private void ventanaAgregarPersona(ActionEvent a) {
-		this.ventanaPersona.mostrarPaises(this.agenda.obtenerPaises());
-		this.ventanaPersona.mostrarTiposDeContacto(this.agenda.obtenerTipoDeContacto());
+		refrescarVentanaPersonas();
 		this.ventanaPersona.mostrarVentana();
 	}
 	
 	private void modificarPersona(ActionEvent k) {
-		
-			
-	//	this.editorPersona.mostrarVentana();
-		
+		int fila = vista.getTablaPersonas().getSelectedRow();
+		if(fila>-1){
+			this.personaSeleccionada = personasEnTabla.get(fila);
+			this.ventanaPersona.getBtnAgregarPersona().setActionCommand("editar");
+			this.ventanaPersona.mostrarPersona(personaSeleccionada);	
+			this.ventanaPersona.mostrarVentana();
+		}
 	}
 	
 	private void guardarPersona(ActionEvent p) {
@@ -102,9 +96,25 @@ public class Controlador implements ActionListener {
 		LocalidadDTO localidad = (LocalidadDTO) ventanaPersona.getComboLocalidad().getSelectedItem();
 		String email = ventanaPersona.getTxtEmail().getText();
 		TipoContactoDTO tipoContacto = (TipoContactoDTO) ventanaPersona.getComboTipoContacto().getSelectedItem();
-		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, telefono, calle, nacimiento, altura, piso, departamento,
-				localidad, email, tipoContacto);
-		this.agenda.agregarPersona(nuevaPersona);
+		String accion = this.ventanaPersona.getBtnAgregarPersona().getActionCommand();
+		if(accion.equals("agregar")) {
+			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, telefono, calle, nacimiento, altura, piso, departamento,
+					localidad, email, tipoContacto);
+			this.agenda.agregarPersona(nuevaPersona);
+		}
+		else if(accion.equals("editar")) {
+			personaSeleccionada.setNombre(nombre);
+			personaSeleccionada.setTelefono(telefono);
+			personaSeleccionada.setCalle(calle);
+			personaSeleccionada.setNacimiento(nacimiento);
+			personaSeleccionada.setAltura(altura);
+			personaSeleccionada.setPiso(piso);
+			personaSeleccionada.setDepartamento(departamento);
+			personaSeleccionada.setLocalidad(localidad);
+			personaSeleccionada.setEmail(email);
+			personaSeleccionada.setTipoContacto(tipoContacto);
+			this.agenda.editarPersona(personaSeleccionada);
+		}
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();
 	}
@@ -138,7 +148,7 @@ public class Controlador implements ActionListener {
 	private void editarTipoContacto(ActionEvent e) {
 		int fila = this.ventanaTipoContacto.obtenerFilaSeleccionada();
 		if(fila>-1) {
-			this.tipoContactoSeleccionado = this.localidades.get(fila);
+			this.tipoContactoSeleccionado = this.tiposContacto.get(fila);
 			this.editorTipoContacto.getTxtNombre().setText(this.tipoContactoSeleccionado.getTipo());
 			this.editorTipoContacto.getBtnAceptar().setActionCommand("editar");//para indicar que voy a actualizar un tipo de contacto existente.
 			this.editorTipoContacto.mostrarVentana();
@@ -148,7 +158,7 @@ public class Controlador implements ActionListener {
 	private void borrarTipoContacto(ActionEvent b) {
 		int fila = this.ventanaTipoContacto.obtenerFilaSeleccionada();
 		if(fila > -1) {
-			this.tipoContactoSeleccionado = this.localidades.get(fila);
+			this.tipoContactoSeleccionado = this.tiposContacto.get(fila);
 			this.agenda.borrarTipoDeContacto(this.tipoContactoSeleccionado);
 			refrescarLocalidades();
 		}
@@ -174,17 +184,17 @@ public class Controlador implements ActionListener {
 	}
 	
 	private void refrescarLocalidades() {
-		this.localidades = this.agenda.obtenerTipoDeContacto();
-		this.ventanaTipoContacto.llenarTabla(localidades);
+		this.tiposContacto = this.agenda.obtenerTipoDeContacto();
+		this.ventanaTipoContacto.llenarTabla(tiposContacto);
 	}
 
+	public void refrescarVentanaPersonas() {
+		this.ventanaPersona.mostrarPaises(this.agenda.obtenerPaises());
+		this.ventanaPersona.mostrarTiposDeContacto(this.agenda.obtenerTipoDeContacto());
+	}
+	
 	private void refrescarTabla() {
 		this.personasEnTabla = agenda.obtenerPersonas();
 		this.vista.llenarTabla(this.personasEnTabla);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	}
-
 }

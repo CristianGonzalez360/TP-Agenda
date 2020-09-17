@@ -9,6 +9,7 @@ import java.util.List;
 
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.PersonaDAO;
+import dto.LocalidadDTO;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
@@ -28,18 +29,13 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4, persona.getCalle());
 			statement.setDate(5, new Date(persona.getNacimiento().getTime())); 
-		
 			statement.setInt(6, persona.getAltura());
 			statement.setInt(7, persona.getPiso());
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
-
 			statement.setInt(10, persona.getLocalidad().getId());
-			
-
 			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto()); 
 			
-
 			if (statement.executeUpdate() > 0)
 				ret = true;
 		} catch (SQLException e) {
@@ -115,5 +111,28 @@ public class PersonaDAOSQL implements PersonaDAO {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	@Override
+	public LocalidadDTO get(int id) {
+		String query = "SELECT * FROM localidad WHERE idlocalidad = ?";
+		ResultSet resultSet;
+		LocalidadDTO localidad = null;
+		Conexion conexion = Conexion.getConexion();
+		PreparedStatement statement;
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(query);
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			ProvinciaDAOSQL provincia = new ProvinciaDAOSQL();
+			while (resultSet.next()) {
+				localidad = new LocalidadDTO(resultSet.getString("nombre"));
+				localidad.setId(resultSet.getInt("idlocalidad"));
+				localidad.setProvincia(provincia.get(resultSet.getInt("provincia")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return localidad;
 	}
 }

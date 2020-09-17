@@ -113,4 +113,8 @@ public class Agenda {
 	public List<TipoContactoDTO> obtenerTipoDeContacto() {
 		return this.tipoContacto.readAll();
 	}
+
+	public void editarPersona(PersonaDTO persona) {
+		this.persona.update(persona);
+	}
 }

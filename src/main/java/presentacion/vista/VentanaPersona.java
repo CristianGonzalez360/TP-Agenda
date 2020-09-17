@@ -16,6 +16,7 @@ import com.toedter.calendar.JDateChooser;
 
 import dto.LocalidadDTO;
 import dto.PaisDTO;
+import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 import java.awt.BorderLayout;
@@ -255,7 +256,6 @@ public class VentanaPersona extends JFrame {
 	// Cerrar
 
 	public void cerrar() {
-
 		this.txtNombre.setText(null);
 		this.txtTelefono.setText(null);
 		this.txtCalle.setText(null);
@@ -264,9 +264,12 @@ public class VentanaPersona extends JFrame {
 		this.txtPiso.setText(null);
 		this.txtDepartamento.setText(null);
 		this.txtEmail.setText(null);
-		this.comboLocalidad.setSelectedIndex(-1);
-		this.comboTipoContacto.setSelectedIndex(-1);
-
+		if(this.comboPais.getItemCount() > 0) {
+			this.comboPais.setSelectedIndex(0);
+		}
+		if(this.comboTipoContacto.getItemCount() > 0) {
+			this.comboTipoContacto.setSelectedIndex(0);
+		}
 		this.dispose();
 	}
 	
@@ -297,5 +300,20 @@ public class VentanaPersona extends JFrame {
 			dcm.addElement(t);
 		}
 		getComboTipoContacto().setModel(dcm);
+	}
+
+	public void mostrarPersona(PersonaDTO persona) {
+		this.txtNombre.setText(persona.getNombre());
+		this.txtTelefono.setText(persona.getTelefono());
+		this.txtCalle.setText(persona.getCalle());
+		this.chooserNacimiento.setDate(persona.getNacimiento());
+		this.txtAltura.setText(persona.getAltura() + "");
+		this.txtPiso.setText(persona.getPiso() + "");
+		this.txtDepartamento.setText(persona.getDepartamento());
+		this.txtEmail.setText(persona.getEmail());
+		this.comboLocalidad.setSelectedItem(persona.getLocalidad());
+		this.comboProvincia.setSelectedItem(persona.getLocalidad().getProvincia());
+		this.comboPais.setSelectedItem(persona.getLocalidad().getProvincia().getPais());
+		this.comboTipoContacto.setSelectedItem(persona.getTipoContacto());
 	}
 }
