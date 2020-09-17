@@ -9,12 +9,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;

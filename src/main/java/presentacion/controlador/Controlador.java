@@ -36,6 +36,7 @@ public class Controlador implements ActionListener {
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
+		this.agenda = agenda;
 		this.ventanaTipoContacto = VentanaTipoDeContacto.getInstance();
 		this.editorTipoContacto = EditorTipoContacto.getInstance();
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
@@ -59,7 +60,7 @@ public class Controlador implements ActionListener {
 		//this.editorPersona = EditorPersona.getInstance();
 		//this.editorPersona.getBtnAgregarPersona().addActionListener(k -> modificarPersona(k));
 		
-		this.agenda = agenda;
+		
 	}
 
 	private void editarLocalidades(ActionEvent l) {
@@ -78,20 +79,8 @@ public class Controlador implements ActionListener {
 	}
 
 	private void ventanaAgregarPersona(ActionEvent a) {
-		// Llena al combo con las localidades disponibles
-		List<LocalidadDTO> localidades = agenda.obtenerLocalidades();
-		DefaultComboBoxModel<LocalidadDTO> dcm = new DefaultComboBoxModel<>();
-		for (LocalidadDTO l : localidades)
-			dcm.addElement(l);
-		ventanaPersona.getComboLocalidad().setModel(dcm);
-		// Llena al combo con los tipos de contacto disponibles
-		List<TipoContactoDTO> tiposDeContacto = agenda.obtenerTiposDeContacto();
-		DefaultComboBoxModel<TipoContactoDTO> dcm2 = new DefaultComboBoxModel<>();
-		for (TipoContactoDTO t : tiposDeContacto) {
-			dcm2.addElement(t);
-		}
-		ventanaPersona.getComboTipoContacto().setModel(dcm2);
-
+		this.ventanaPersona.mostrarPaises(this.agenda.obtenerPaises());
+		this.ventanaPersona.mostrarTiposDeContacto(this.agenda.obtenerTipoDeContacto());
 		this.ventanaPersona.mostrarVentana();
 	}
 	
@@ -185,7 +174,7 @@ public class Controlador implements ActionListener {
 	}
 	
 	private void refrescarLocalidades() {
-		this.localidades = this.agenda.obtenerTipoDeCoontacto();
+		this.localidades = this.agenda.obtenerTipoDeContacto();
 		this.ventanaTipoContacto.llenarTabla(localidades);
 	}
 

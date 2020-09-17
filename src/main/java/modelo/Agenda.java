@@ -110,7 +110,7 @@ public class Agenda {
 		this.tipoContacto.delete(tipoContacto);
 	}
 
-	public List<TipoContactoDTO> obtenerTipoDeCoontacto() {
+	public List<TipoContactoDTO> obtenerTipoDeContacto() {
 		return this.tipoContacto.readAll();
 	}
 }

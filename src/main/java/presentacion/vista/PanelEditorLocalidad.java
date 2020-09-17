@@ -146,9 +146,6 @@ public class PanelEditorLocalidad extends JPanel {
 		else if(paises.isEmpty()) {
 			comboProvincias.removeAllItems();
 		}
-		else {
-			comboProvincias.setSelectedIndex(0);
-		}
 	}
 	
 	public void mostrarProvincias(List<ProvinciaDTO> provincias) {

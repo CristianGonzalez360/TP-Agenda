@@ -30,7 +30,7 @@ public class VentanaTipoDeContacto extends JDialog {
 
 	private VentanaTipoDeContacto() {
 		setBounds(100, 100, 410, 423);
-
+		setAlwaysOnTop(true);
 		JPanel panel = new JPanel(new BorderLayout());
 		setContentPane(panel);
 		
