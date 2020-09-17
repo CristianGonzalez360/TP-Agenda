@@ -2,20 +2,21 @@ package dto;
 
 public class LocalidadDTO {
 
-	private int idLocalidad;
+	private int id;
 	private String nombre;
+	private ProvinciaDTO provincia;
+	
 
 	public LocalidadDTO(String nombre) {
-		super();
 		this.nombre = nombre;
 	}
 
-	public int getIdLocalidad() {
-		return idLocalidad;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdLocalidad(int idLocalidad) {
-		this.idLocalidad = idLocalidad;
+	public void setId(int idLocalidad) {
+		this.id = idLocalidad;
 	}
 
 	public String getNombre() {
@@ -26,8 +27,27 @@ public class LocalidadDTO {
 		this.nombre = nombre;
 	}
 	
+	public ProvinciaDTO getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(ProvinciaDTO provincia) {
+		this.provincia = provincia;
+	}
+
 	@Override
 	public String toString() {
 		return getNombre();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean ret = false;
+		if(obj instanceof LocalidadDTO) {
+			LocalidadDTO localidad = (LocalidadDTO) obj;
+			ret = this.id == localidad.getId();
+		}
+		return ret;
+	}
+
 }

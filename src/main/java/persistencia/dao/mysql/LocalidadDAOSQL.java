@@ -11,14 +11,15 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import dto.LocalidadDTO;
+import dto.ProvinciaDTO;
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.LocalidadDAO;
 
 public class LocalidadDAOSQL implements LocalidadDAO {
 
-	private static final String insert = "INSERT INTO localidad(nombre) VALUES (?)";
+	private static final String insert = "INSERT INTO localidad(nombre, provincia) VALUES (?,?)";
 	private static final String delete = "DELETE FROM localidad WHERE idlocalidad = ?";
-	private static final String readall = "SELECT * FROM localidad";
+	private static final String readall = "SELECT * FROM localidad WHERE provincia = ?";
 	private static final String update = "UPDATE localidad SET `nombre` = ? WHERE idLocalidad = ?";
 
 	@Override
@@ -26,86 +27,75 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 		boolean ret = false;
 		PreparedStatement statement;
 		Conexion conexion = Conexion.getConexion();
-		try 
-		{
+		try {
 			statement = conexion.getSQLConexion().prepareStatement(insert);
 			statement.setString(1, localidad.getNombre());
-			if(statement.executeUpdate() > 0) //Si se ejecutó devuelvo true
+			statement.setInt(2, localidad.getProvincia().getId());
+			if (statement.executeUpdate() > 0) // Si se ejecutï¿½ devuelvo true
 				ret = true;
-		}
-		catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return ret;
 	}
 
 	@Override
-	public boolean delete(LocalidadDTO localidad_a_eliminar)
-	{
+	public boolean delete(LocalidadDTO localidad_a_eliminar) {
 		boolean ret = false;
 		PreparedStatement statement;
 		int chequeoUpdate = 0;
 		Conexion conexion = Conexion.getConexion();
-		try 
-		{
+		try {
 			statement = conexion.getSQLConexion().prepareStatement(delete);
-			statement.setString(1, Integer.toString(localidad_a_eliminar.getIdLocalidad()));
+			statement.setString(1, Integer.toString(localidad_a_eliminar.getId()));
 			chequeoUpdate = statement.executeUpdate();
-			if(chequeoUpdate > 0) //Si se ejecutÃ³ devuelvo true
+			if (chequeoUpdate > 0) // Si se ejecutÃ³ devuelvo true
 				ret = true;
-		} 
-		catch (MySQLIntegrityConstraintViolationException e) 
-		{
+		} catch (MySQLIntegrityConstraintViolationException e) {
 			JOptionPane.showMessageDialog(null, "Un contacto vive en esta localidad, no se puede borrar!!");
-		}
-		catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 
 		return ret;
 	}
 
 	@Override
-	public List<LocalidadDTO> readAll() {
+	public List<LocalidadDTO> readAll(ProvinciaDTO provincia) {
 		PreparedStatement statement;
-		ResultSet resultSet; //Guarda el resultado de la query
+		ResultSet resultSet; // Guarda el resultado de la query
 		ArrayList<LocalidadDTO> localidades = new ArrayList<LocalidadDTO>();
 		Conexion conexion = Conexion.getConexion();
-		try 
-		{
+		try {
+
 			statement = conexion.getSQLConexion().prepareStatement(readall);
+			statement.setInt(1, provincia.getId());
 			resultSet = statement.executeQuery();
-			
-			while(resultSet.next())
-			{
+
+			while (resultSet.next()) {
 				LocalidadDTO localidad = new LocalidadDTO(resultSet.getString("nombre"));
-				localidad.setIdLocalidad(resultSet.getInt("idlocalidad"));
+				localidad.setId(resultSet.getInt("idlocalidad"));
+				localidad.setProvincia(provincia);
 				localidades.add(localidad);
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return localidades;
 	}
 
 	@Override
-	public boolean update(LocalidadDTO localidad_a_editar) {
+	public boolean update(LocalidadDTO localidad) {
 		boolean ret = false;
 		PreparedStatement statement;
 		Conexion conexion = Conexion.getConexion();
-		try 
-		{
+		try {
 			statement = conexion.getSQLConexion().prepareStatement(update);
-			statement.setString(1, localidad_a_editar.getNombre());
-			statement.setInt(2, localidad_a_editar.getIdLocalidad());
-			if(statement.executeUpdate() > 0) //Si se ejecutó devuelvo true
+			statement.setString(1, localidad.getNombre());
+			statement.setInt(2, localidad.getId());
+			if (statement.executeUpdate() > 0) // Si se ejecutï¿½ devuelvo true
 				ret = true;
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return ret;
@@ -113,25 +103,20 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 
 	@Override
 	public LocalidadDTO get(int id) {
-		String query= "SELECT * FROM localidad WHERE idlocalidad = ?";
+		String query = "SELECT * FROM localidad WHERE idlocalidad = ?";
 		ResultSet resultSet;
 		LocalidadDTO localidad = null;
 		Conexion conexion = Conexion.getConexion();
 		PreparedStatement statement;
-		try 
-		{
+		try {
 			statement = conexion.getSQLConexion().prepareStatement(query);
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
-			
-			while(resultSet.next())
-			{
+			while (resultSet.next()) {
 				localidad = new LocalidadDTO(resultSet.getString("nombre"));
-				localidad.setIdLocalidad(resultSet.getInt("idlocalidad"));
+				localidad.setId(resultSet.getInt("idlocalidad"));
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return localidad;

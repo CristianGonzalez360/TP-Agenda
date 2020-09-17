@@ -12,34 +12,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Rectangle;
 
-public class EditorLocalidad extends JDialog {
+public class EditorTipoContacto extends JDialog {
 	
-	private static EditorLocalidad INSTANCE = null;
+	private static EditorTipoContacto INSTANCE = null;
 	private JTextField txtNombre;
 	private JButton btnAceptar;
 	
-	public static EditorLocalidad getInstance()
+	public static EditorTipoContacto getInstance()
 	{
 		if(INSTANCE == null) {
-			INSTANCE = new EditorLocalidad(); 	
+			INSTANCE = new EditorTipoContacto(); 	
 		}
 		return INSTANCE;
 	}
 
-	private EditorLocalidad() {
+	private EditorTipoContacto() {
+		setResizable(false);
 		setBounds(new Rectangle(0, 0, 314, 108));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		JPanel panelCentral = new JPanel();
-		panelCentral.setLayout(null);
 		
 		getContentPane().add(panelCentral, BorderLayout.CENTER);
+		panelCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 11, 46, 14);
 		panelCentral.add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(66, 8, 225, 20);
 		panelCentral.add(txtNombre);
 		txtNombre.setColumns(10);
 		

@@ -34,7 +34,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
 
-			statement.setInt(10, persona.getLocalidad().getIdLocalidad());
+			statement.setInt(10, persona.getLocalidad().getId());
 			
 
 			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto()); 
@@ -103,7 +103,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(7, persona.getDepartamento());
 			statement.setString(8, persona.getEmail());
 			
-			statement.setInt(9, persona.getLocalidad().getIdLocalidad()); 
+			statement.setInt(9, persona.getLocalidad().getId()); 
 			
 			statement.setInt(10, persona.getTipoContacto().getIdTipoContacto()); 			
 			

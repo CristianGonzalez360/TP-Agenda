@@ -37,6 +37,8 @@ public class Vista {
 			"Departamento", "Mail", "Localidad", "TipoDeContacto" };
 	private JMenuItem mntmLocalidades;
 	private JMenuItem mntmTiposDeContacto;
+	private JMenuItem mntmProvincias;
+	private JMenuItem mntmPaises;
 
 	public Vista() {
 		super();
@@ -44,8 +46,6 @@ public class Vista {
 	}
 
 	private void initialize() {
-		
-		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,10 +93,16 @@ public class Vista {
 
 		JMenu mnAdministracin = new JMenu("Administraci\u00F3n");
 		menuBar.add(mnAdministracin);
+		
+		mntmPaises = new JMenuItem("Paises");
+		mnAdministracin.add(mntmPaises);
+		
+		mntmProvincias = new JMenuItem("Provincias");
+		mnAdministracin.add(mntmProvincias);
 
 		mntmLocalidades = new JMenuItem("Localidades");
 		mnAdministracin.add(mntmLocalidades);
-
+		
 		mntmTiposDeContacto = new JMenuItem("Tipos de Contacto");
 		mnAdministracin.add(mntmTiposDeContacto);
 
@@ -140,6 +146,18 @@ public class Vista {
 
 	public JMenuItem getMntmLocalidades() {
 		return mntmLocalidades;
+	}
+
+	public JMenuItem getMntmProvincias() {
+		return mntmProvincias;
+	}
+
+	public JMenuItem getMntmPaises() {
+		return mntmPaises;
+	}
+
+	public JMenuItem getMntmTiposDeContacto() {
+		return mntmTiposDeContacto;
 	}
 
 	public DefaultTableModel getModelPersonas() {

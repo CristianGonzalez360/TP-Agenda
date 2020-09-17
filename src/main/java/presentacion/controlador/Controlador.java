@@ -9,11 +9,12 @@ import javax.swing.DefaultComboBoxModel;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
-import presentacion.vista.EditorLocalidad;
-import presentacion.vista.EditorPersona;
-import presentacion.vista.VentanaLocalidades;
+import presentacion.vista.EditorTipoContacto;
+//import presentacion.vista.EditorPersona;
 import presentacion.vista.VentanaPersona;
+import presentacion.vista.VentanaTipoDeContacto;
 import presentacion.vista.Vista;
+import presentacion.vista.VistaEditor;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
@@ -21,38 +22,59 @@ import dto.TipoContactoDTO;
 public class Controlador implements ActionListener {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
-	private List<LocalidadDTO> localidades;
-	private LocalidadDTO localidadSeleccionada;
+	private List<TipoContactoDTO> localidades;
+	private TipoContactoDTO tipoContactoSeleccionado;
 	private VentanaPersona ventanaPersona;
-	private EditorLocalidad editorLocalidad;
-	private VentanaLocalidades ventanaLocalidades;
+	private EditorTipoContacto editorTipoContacto;
+	private VentanaTipoDeContacto ventanaTipoContacto;
 	
-	private EditorPersona editorPersona;
+	private VistaEditor vistaEditor;
+	private ControladorEditor controladorEditor;
+	//private EditorPersona editorPersona;
 	
 	private Agenda agenda;
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
+		this.ventanaTipoContacto = VentanaTipoDeContacto.getInstance();
+		this.editorTipoContacto = EditorTipoContacto.getInstance();
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
-		
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
-		
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
-		this.vista.getMntmLocalidades().addActionListener(l -> ventanaLocalidades(l));
+		this.vista.getMntmLocalidades().addActionListener(l -> editarLocalidades(l));
+		this.vista.getMntmPaises().addActionListener(p -> editarPaises(p));
+		this.vista.getMntmProvincias().addActionListener(p -> editarProvincia(p));
+		this.vista.getMntmTiposDeContacto().addActionListener(vc -> ventanaTipoContacto(vc));
+		this.ventanaTipoContacto.getBtnAgregar().addActionListener(ac -> agregarTipoContacto(ac));
+		this.ventanaTipoContacto.getBtnEditar().addActionListener(ec -> editarTipoContacto(ec));
+		this.ventanaTipoContacto.getBtnBorrar().addActionListener(bc -> borrarTipoContacto(bc));
+		this.editorTipoContacto.getBtnAceptar().addActionListener(gc -> guardarTipoContacto(gc));
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
-		this.editorLocalidad = EditorLocalidad.getInstance();
-		this.editorLocalidad.getBtnAceptar().addActionListener(g -> guardarLocalidad(g));
-		this.ventanaLocalidades = VentanaLocalidades.getInstance();
-		this.ventanaLocalidades.getBtnAgregar().addActionListener(a -> ventanaAgregarLocalidad(a));
-		this.ventanaLocalidades.getBtnEditar().addActionListener(e -> editarLocalidad(e));
-		this.ventanaLocalidades.getBtnBorrar().addActionListener(b -> borrarLocalidad(b));
 		
-		this.editorPersona = EditorPersona.getInstance();
+		this.vistaEditor = new VistaEditor();
+		this.controladorEditor = new ControladorEditor(vistaEditor, agenda);
+		
+		//this.editorPersona = EditorPersona.getInstance();
 		//this.editorPersona.getBtnAgregarPersona().addActionListener(k -> modificarPersona(k));
 		
 		this.agenda = agenda;
+	}
+
+	private void editarLocalidades(ActionEvent l) {
+		vistaEditor.mostar(VistaEditor.LOCALIDAD);
+		vistaEditor.setVisible(true);
+	}
+
+	private void editarProvincia(ActionEvent p) {
+		vistaEditor.mostar(VistaEditor.PROVINCIA);
+		vistaEditor.setVisible(true);
+	}
+
+	private void editarPaises(ActionEvent p) {
+		vistaEditor.mostar(VistaEditor.PAIS);
+		vistaEditor.setVisible(true);
 	}
 
 	private void ventanaAgregarPersona(ActionEvent a) {
@@ -76,12 +98,9 @@ public class Controlador implements ActionListener {
 	private void modificarPersona(ActionEvent k) {
 		
 			
-		this.editorPersona.mostrarVentana();
+	//	this.editorPersona.mostrarVentana();
 		
 	}
-	
-	
-	
 	
 	private void guardarPersona(ActionEvent p) {
 		String nombre = this.ventanaPersona.getTxtNombre().getText();
@@ -100,47 +119,50 @@ public class Controlador implements ActionListener {
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();
 	}
-	
-	private void ventanaLocalidades(ActionEvent l) {
-		refrescarLocalidades();
-		this.ventanaLocalidades.mostrarVentana();
-	}
-
-	private void ventanaAgregarLocalidad(ActionEvent a) {
-		this.editorLocalidad.getBtnAceptar().setActionCommand("agregar");//para indicar que voy a guardar una nueva localidad.
-		this.editorLocalidad.mostrarVentana();
-	}
-	
-	private void guardarLocalidad(ActionEvent a) {
-		String accion = this.editorLocalidad.getBtnAceptar().getActionCommand();
-		String nombre = this.editorLocalidad.getTxtNombre().getText();
+		
+	private void guardarTipoContacto(ActionEvent a) {
+		String accion = this.editorTipoContacto.getBtnAceptar().getActionCommand();
+		String tipo = this.editorTipoContacto.getTxtNombre().getText();
 		if(accion.equals("agregar")) {
-			LocalidadDTO localidad = new LocalidadDTO(nombre);
-			this.agenda.agregarLocalidad(localidad);
+			TipoContactoDTO tipoContacto = new TipoContactoDTO();
+			tipoContacto.setTipo(tipo);;
+			this.agenda.agregarTipoDeContacto(tipoContacto);
 		}
 		else if(accion.equals("editar")) {
-			this.localidadSeleccionada.setNombre(nombre);
-			this.agenda.editarLocalidad(localidadSeleccionada);
+			this.tipoContactoSeleccionado.setTipo(tipo);
+			this.agenda.editarTipoDeContacto(tipoContactoSeleccionado);
 		}
-		this.editorLocalidad.cerrar();
+		this.editorTipoContacto.cerrar();
 		refrescarLocalidades();
 	}
+	
+	private void ventanaTipoContacto(ActionEvent l) {
+		refrescarLocalidades();
+		this.ventanaTipoContacto.mostrarVentana();
+	}
 
-	private void editarLocalidad(ActionEvent e) {
-		int fila = this.ventanaLocalidades.obtenerFilaSeleccionada();
+	private void agregarTipoContacto(ActionEvent a) {
+		this.editorTipoContacto.getBtnAceptar().setActionCommand("agregar");//para indicar que voy a guardar una nueva localidad.
+		this.editorTipoContacto.mostrarVentana();
+	}
+
+	private void editarTipoContacto(ActionEvent e) {
+		int fila = this.ventanaTipoContacto.obtenerFilaSeleccionada();
 		if(fila>-1) {
-			this.localidadSeleccionada = this.localidades.get(fila);
-			this.editorLocalidad.getTxtNombre().setText(this.localidadSeleccionada.getNombre());
-			this.editorLocalidad.getBtnAceptar().setActionCommand("editar");//para indicar que voy a actualizar una localidad existente.
-			this.editorLocalidad.mostrarVentana();
+			this.tipoContactoSeleccionado = this.localidades.get(fila);
+			this.editorTipoContacto.getTxtNombre().setText(this.tipoContactoSeleccionado.getTipo());
+			this.editorTipoContacto.getBtnAceptar().setActionCommand("editar");//para indicar que voy a actualizar un tipo de contacto existente.
+			this.editorTipoContacto.mostrarVentana();
 		}
 	}
 	
-	private void borrarLocalidad(ActionEvent b) {
-		int fila = this.ventanaLocalidades.obtenerFilaSeleccionada();
-		this.localidadSeleccionada = this.localidades.get(fila);
-		this.agenda.borrarLocalidad(this.localidadSeleccionada);
-		refrescarLocalidades();
+	private void borrarTipoContacto(ActionEvent b) {
+		int fila = this.ventanaTipoContacto.obtenerFilaSeleccionada();
+		if(fila > -1) {
+			this.tipoContactoSeleccionado = this.localidades.get(fila);
+			this.agenda.borrarTipoDeContacto(this.tipoContactoSeleccionado);
+			refrescarLocalidades();
+		}
 	}
 
 	private void mostrarReporte(ActionEvent r) {
@@ -163,8 +185,8 @@ public class Controlador implements ActionListener {
 	}
 	
 	private void refrescarLocalidades() {
-		this.localidades = this.agenda.obtenerLocalidades();
-		this.ventanaLocalidades.llenarTabla(localidades);
+		this.localidades = this.agenda.obtenerTipoDeCoontacto();
+		this.ventanaTipoContacto.llenarTabla(localidades);
 	}
 
 	private void refrescarTabla() {
