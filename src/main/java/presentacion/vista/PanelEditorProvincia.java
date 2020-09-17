@@ -177,6 +177,7 @@ public class PanelEditorProvincia extends JPanel {
 		}
 		else if(paises.isEmpty()) {
 			comboProvincias.removeAllItems();
+			comboProvincias.addItem(new ProvinciaDTO("Nueva"));
 		}
 		else {
 			comboProvincias.setSelectedIndex(0);

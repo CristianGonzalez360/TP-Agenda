@@ -145,6 +145,7 @@ public class PanelEditorLocalidad extends JPanel {
 		}
 		else if(paises.isEmpty()) {
 			comboProvincias.removeAllItems();
+			comboLocalidades.addItem(new LocalidadDTO("Nueva"));
 		}
 	}
 	
@@ -159,6 +160,7 @@ public class PanelEditorLocalidad extends JPanel {
 		}
 		else if(provincias.isEmpty()) {
 			comboLocalidades.removeAllItems();
+			comboLocalidades.addItem(new LocalidadDTO("Nueva"));
 		}
 		else {
 			comboLocalidades.setSelectedIndex(0);

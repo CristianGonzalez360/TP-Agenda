@@ -69,13 +69,14 @@ public class ControladorEditor {
 		String nombre = editorLocalidad.getTxtNombre().getText();
 		localidad.setProvincia(provincia);
 		localidad.setNombre(nombre);
-		if(editorLocalidad.getComboLocalidades().getSelectedIndex() == 0) { //Guardo una localidad nueva.
-			agenda.agregarLocalidad(localidad);
+		if (validar(localidad)) {
+			if (editorLocalidad.getComboLocalidades().getSelectedIndex() == 0) { //Guardo una localidad nueva.
+				agenda.agregarLocalidad(localidad);
+			} else {															 //Edito una localodad.
+				agenda.editarLocalidad(localidad);
+			}
+			actualizarLocalidades(provincia);
 		}
-		else {																//Edito una localodad.
-			agenda.editarLocalidad(localidad);
-		}
-		actualizarLocalidades(provincia);
 	}
 
 	private void iniciarEditorProvincia() {
@@ -131,12 +132,14 @@ public class ControladorEditor {
 		ProvinciaDTO provincia = editorProvincia.getProvinciaSeleccionada();
 		provincia.setNombre(nombre);
 		provincia.setPais(pais);
-		if (editorProvincia.getComboProvincias().getSelectedIndex() == 0) { // Guarda una provincia nueva;
-			this.agenda.agregarProvincia(provincia);
-		} else { 															// Edita una provincia
-			agenda.editarProvincia(provincia);
+		if (validar(provincia)) {
+			if (editorProvincia.getComboProvincias().getSelectedIndex() == 0) { // Guarda una provincia nueva;
+				this.agenda.agregarProvincia(provincia);
+			} else { 															// Edita una provincia
+				agenda.editarProvincia(provincia);
+			}
+			actualizarProvincias(pais);
 		}
-		actualizarProvincias(pais);
 	}
 
 	private void iniciarEditorPais() {
@@ -177,12 +180,14 @@ public class ControladorEditor {
 		String nombre = editorPais.getTxtNombre().getText();
 		PaisDTO pais = editorPais.getPaisSeleccionado();
 		pais.setNombre(nombre);
-		if (editorPais.getComboPaises().getSelectedIndex() == 0) { // Guearda un pais nuevo.
-			agenda.agregarPais(pais);
-		} else {												   // Edita un pais.
-			this.agenda.editarPais(pais);
+		if (validar(pais)) {
+			if (editorPais.getComboPaises().getSelectedIndex() == 0) { // Guearda un pais nuevo.
+				agenda.agregarPais(pais);
+			} else { 												   // Edita un pais.
+				this.agenda.editarPais(pais);
+			}
+			actualizarPaises();
 		}
-		actualizarPaises();
 	}
 	
 	private void actualizarPaises() {
@@ -202,6 +207,30 @@ public class ControladorEditor {
 	private void actualizarLocalidades(ProvinciaDTO provincia) {
 		actualizarProvincias(provincia.getPais());
 		editorLocalidad.mostrarLocalidades(agenda.obtenerLocalidades(provincia));
+	}
+	
+	private boolean validar(LocalidadDTO localidad) {
+		boolean ret = true;
+		if(localidad.getNombre().equals("") || localidad.getProvincia() == null) {
+			ret = false;
+		}
+		return ret;
+	}
+	
+	private boolean validar(ProvinciaDTO procincia) {
+		boolean ret = true;
+		if(procincia.getNombre().equals("") || procincia.getPais() == null) {
+			ret = false;
+		}
+		return ret;
+	}
+	
+	private boolean validar(PaisDTO pais) {
+		boolean ret = true;
+		if(pais.getNombre().equals("")) {
+			ret = false;
+		}
+		return ret;
 	}
 
 }
