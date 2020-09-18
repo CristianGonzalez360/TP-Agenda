@@ -27,14 +27,12 @@ public class Vista {
 	private JFrame frame;
 	private JTable tablaPersonas;
 	private JButton btnAgregar;
-
-	private JButton btnEditar; // Editar
-
+	private JButton btnEditar; 
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Calle", "Nacimiento", "Altura", "Piso",
-			"Departamento", "Mail", "Localidad", "TipoDeContacto" };
+	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Nacimiento","Calle",  "Altura", "Piso",
+			"Departamento", "EMail","Pais", "Provincia", "Localidad", "TipoDeContacto" };
 	private JMenuItem mntmLocalidades;
 	private JMenuItem mntmTiposDeContacto;
 	private JMenuItem mntmProvincias;
@@ -47,7 +45,7 @@ public class Vista {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 850, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -56,7 +54,7 @@ public class Vista {
 		panel.setLayout(new BorderLayout());
 
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(10, 11, 414, 182);
+		spPersonas.setBounds(10, 11, 814, 182);
 		panel.add(spPersonas, BorderLayout.CENTER);
 
 		modelPersonas = new DefaultTableModel(null, nombreColumnas);
@@ -178,9 +176,9 @@ public class Vista {
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
 
 		for (PersonaDTO persona : personasEnTabla) {
-			Object[] fila = { persona.getNombre(), persona.getTelefono(), persona.getCalle(),
-					getFecha(persona.getNacimiento()), persona.getAltura(), persona.getPiso(),
-					persona.getDepartamento(), persona.getEmail(), persona.getLocalidad().getNombre(),
+			Object[] fila = { persona.getNombre(), persona.getTelefono(),getFecha(persona.getNacimiento()), persona.getCalle(),
+					 persona.getAltura(), persona.getPiso(),
+					persona.getDepartamento(), persona.getEmail(),persona.getLocalidad() ,persona.getLocalidad().getProvincia(), persona.getLocalidad().getNombre(),
 					persona.getTipoContacto().getTipo() }; 
 			this.getModelPersonas().addRow(fila);
 		}

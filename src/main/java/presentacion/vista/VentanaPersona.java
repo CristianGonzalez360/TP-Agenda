@@ -75,13 +75,16 @@ public class VentanaPersona extends JFrame {
 		lblTelfono.setBounds(10, 35, 113, 14);
 		panel.add(lblTelfono);
 
-		JLabel lblCalle = new JLabel("Calle");
-		lblCalle.setBounds(10, 66, 113, 14);
-		panel.add(lblCalle);
+		
 
 		JLabel lblNacimiento = new JLabel("Nacimiento");
-		lblNacimiento.setBounds(10, 94, 113, 14);
+		lblNacimiento.setBounds(10, 66, 113, 14);
 		panel.add(lblNacimiento);
+		
+		
+		JLabel lblCalle = new JLabel("Calle");
+		lblCalle.setBounds(10, 94, 113, 14);
+		panel.add(lblCalle);
 
 		JLabel lblAltura = new JLabel("Altura");
 		lblAltura.setBounds(10, 128, 113, 14);
@@ -120,12 +123,12 @@ public class VentanaPersona extends JFrame {
 		txtTelefono.setColumns(10);
 
 		txtCalle = new JTextField();
-		txtCalle.setBounds(133, 63, 164, 20);
+		txtCalle.setBounds(133, 94, 164, 20);
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 
 		chooserNacimiento = new JDateChooser();
-		chooserNacimiento.setBounds(133, 94, 164, 20);
+		chooserNacimiento.setBounds(133, 66, 164, 20);
 		panel.add(chooserNacimiento);
 
 		txtAltura = new JTextField();
