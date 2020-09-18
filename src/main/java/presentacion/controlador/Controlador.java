@@ -72,6 +72,7 @@ public class Controlador {
 
 	private void ventanaAgregarPersona(ActionEvent a) {
 		refrescarVentanaPersonas();
+		this.ventanaPersona.getBtnAgregarPersona().setActionCommand("agregar");
 		this.ventanaPersona.mostrarVentana();
 	}
 	
