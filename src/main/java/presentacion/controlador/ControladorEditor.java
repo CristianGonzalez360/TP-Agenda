@@ -3,6 +3,7 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.Effect3D;
 
@@ -58,6 +59,7 @@ public class ControladorEditor {
 		}
 		if(localidad != null && localidad.getId() != 0) {
 			if(this.agenda.borrarLocalidad(localidad)) {
+				JOptionPane.showMessageDialog(null, "Localidad borrada exitosamente" );
 				actualizarLocalidades(localidad.getProvincia());
 			}
 		}
@@ -75,6 +77,7 @@ public class ControladorEditor {
 			} else {															 //Edito una localodad.
 				agenda.editarLocalidad(localidad);
 			}
+			JOptionPane.showMessageDialog(null, "Localidad agregada exitosamente" );
 			actualizarLocalidades(provincia);
 		}
 	}
@@ -121,6 +124,7 @@ public class ControladorEditor {
 		}
 		if(provincia != null && provincia.getId() != 0) {
 			if(this.agenda.borrarProvincia(provincia)) {
+				JOptionPane.showMessageDialog(null, "Provincia borrada exitosamente" );
 				actualizarProvincias(provincia.getPais());
 			}
 		}
@@ -138,6 +142,7 @@ public class ControladorEditor {
 			} else { 															// Edita una provincia
 				agenda.editarProvincia(provincia);
 			}
+			JOptionPane.showMessageDialog(null, "Provincia agregada exitosamente" );
 			actualizarProvincias(pais);
 		}
 	}
@@ -173,6 +178,7 @@ public class ControladorEditor {
 	private void borrarPais(ActionEvent bp) {
 		PaisDTO pais = editorPais.getPaisSeleccionado();
 		this.agenda.borrarPais(pais);
+		JOptionPane.showMessageDialog(null, "Pais borrado exitosamente" );
 		actualizarPaises();
 	}
 
@@ -186,6 +192,7 @@ public class ControladorEditor {
 			} else { 												   // Edita un pais.
 				this.agenda.editarPais(pais);
 			}
+			JOptionPane.showMessageDialog(null, "Pais agregado exitosamente" );
 			actualizarPaises();
 		}
 	}

@@ -3,6 +3,9 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.EditorTipoContacto;
@@ -117,6 +120,7 @@ public class Controlador {
 			this.agenda.editarPersona(personaSeleccionada);
 		}
 		this.refrescarTabla();
+		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente" );
 		this.ventanaPersona.cerrar();
 	}
 		
@@ -132,7 +136,10 @@ public class Controlador {
 			this.tipoContactoSeleccionado.setTipo(tipo);
 			this.agenda.editarTipoDeContacto(tipoContactoSeleccionado);
 		}
+		
+		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
 		this.editorTipoContacto.cerrar();
+		
 		refrescarLocalidades();
 	}
 	
@@ -161,6 +168,8 @@ public class Controlador {
 		if(fila > -1) {
 			this.tipoContactoSeleccionado = this.tiposContacto.get(fila);
 			this.agenda.borrarTipoDeContacto(this.tipoContactoSeleccionado);
+			
+			JOptionPane.showMessageDialog(null, "Tipo contacto eliminado exitosamente" );
 			refrescarLocalidades();
 		}
 	}
@@ -175,7 +184,8 @@ public class Controlador {
 		for (int fila : filasSeleccionadas) {
 			this.agenda.borrarPersona(this.personasEnTabla.get(fila));
 		}
-
+		
+		JOptionPane.showMessageDialog(null , "Contacto eliminado exitosamente");
 		this.refrescarTabla();
 	}
 
