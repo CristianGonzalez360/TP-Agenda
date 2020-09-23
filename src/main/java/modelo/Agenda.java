@@ -2,12 +2,14 @@ package modelo;
 
 import java.util.List;
 
+import dto.DeporteDTO;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
+import persistencia.dao.interfaz.DeporteDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
@@ -20,6 +22,7 @@ public class Agenda {
 	private TipoContactoDAO tipoContacto;
 	private PaisDAO pais;
 	private ProvinciaDAO provincia;
+	private DeporteDAO deporte;
 
 	public Agenda(DAOAbstractFactory metodo_persistencia) {
 		this.persona = metodo_persistencia.createPersonaDAO();
@@ -27,6 +30,7 @@ public class Agenda {
 		this.tipoContacto = metodo_persistencia.createTipoContactoDAO();
 		this.pais = metodo_persistencia.createPaisDAO();
 		this.provincia = metodo_persistencia.createProvinciaDAO();
+		this.deporte = metodo_persistencia.createDeporteDAO();
 	}
 
 	public void agregarPersona(PersonaDTO nuevaPersona) {
@@ -116,5 +120,21 @@ public class Agenda {
 
 	public void editarPersona(PersonaDTO persona) {
 		this.persona.update(persona);
+	}
+
+	public void agregarDeporte(DeporteDTO deporte) {
+		this.deporte.insert(deporte);
+	}
+
+	public void editarDeporte(DeporteDTO deporte) {
+		this.deporte.update(deporte);
+	}
+
+	public List<DeporteDTO> obtenerDeportes() {
+		return this.deporte.readAll();
+	}
+
+	public void borrarDeporte(DeporteDTO deporte) {
+		this.deporte.delete(deporte);
 	}
 }

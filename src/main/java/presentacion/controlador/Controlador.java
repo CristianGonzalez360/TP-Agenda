@@ -8,11 +8,14 @@ import javax.swing.JOptionPane;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.EditorDeporte;
 import presentacion.vista.EditorTipoContacto;
+import presentacion.vista.VentanaDeportes;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoDeContacto;
 import presentacion.vista.Vista;
 import presentacion.vista.VistaEditor;
+import dto.DeporteDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
@@ -22,22 +25,28 @@ public class Controlador {
 	private List<PersonaDTO> personasEnTabla;
 	private List<TipoContactoDTO> tiposContacto;
 	private TipoContactoDTO tipoContactoSeleccionado;
+	private DeporteDTO deporteSeleccionado;
 	private PersonaDTO personaSeleccionada;
 	private VentanaPersona ventanaPersona;
 	private EditorTipoContacto editorTipoContacto;
+	private EditorDeporte editorDeporte;
 	private VentanaTipoDeContacto ventanaTipoContacto;
 	
 	private VistaEditor vistaEditor;
 	private ControladorEditor controladorEditor;
 	
 	private Agenda agenda;
+	private List<DeporteDTO> deportes;
+	private VentanaDeportes ventanaDeportes;
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
 		this.agenda = agenda;
 		this.ventanaTipoContacto = VentanaTipoDeContacto.getInstance();
 		this.editorTipoContacto = EditorTipoContacto.getInstance();
+		this.editorDeporte = EditorDeporte.getInstance();
 		this.ventanaPersona = VentanaPersona.getInstance();
+		this.ventanaDeportes = VentanaDeportes.getInstance();
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -46,10 +55,15 @@ public class Controlador {
 		this.vista.getMntmPaises().addActionListener(p -> editarPaises(p));
 		this.vista.getMntmProvincias().addActionListener(p -> editarProvincia(p));
 		this.vista.getMntmTiposDeContacto().addActionListener(vc -> ventanaTipoContacto(vc));
+		this.vista.getMntmDeporte().addActionListener(vd -> ventanaDeporte(vd));
 		this.ventanaTipoContacto.getBtnAgregar().addActionListener(ac -> agregarTipoContacto(ac));
 		this.ventanaTipoContacto.getBtnEditar().addActionListener(ec -> editarTipoContacto(ec));
 		this.ventanaTipoContacto.getBtnBorrar().addActionListener(bc -> borrarTipoContacto(bc));
 		this.editorTipoContacto.getBtnAceptar().addActionListener(gc -> guardarTipoContacto(gc));
+		this.ventanaDeportes.getBtnAgregar().addActionListener(ad -> agregarDeporte(ad));
+		this.ventanaDeportes.getBtnEditar().addActionListener(ed -> editarDeporte(ed));
+		this.ventanaDeportes.getBtnBorrar().addActionListener(bd -> borrarDeporte(bd));
+		this.editorDeporte.getBtnAceptar().addActionListener(gd -> guardarDeporte(gd));
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
 		
 		this.vistaEditor = new VistaEditor();
@@ -90,38 +104,42 @@ public class Controlador {
 	}
 	
 	private void guardarPersona(ActionEvent p) {
-		String nombre = this.ventanaPersona.getTxtNombre().getText();
-		String telefono = ventanaPersona.getTxtTelefono().getText();
-		String calle = ventanaPersona.getTxtCalle().getText();
-		Date nacimiento = ventanaPersona.getChooserNacimiento().getDate();
-		int altura = Integer.parseInt(ventanaPersona.getTxtAltura().getText());
-		int piso = Integer.parseInt(ventanaPersona.getTxtPiso().getText());
-		String departamento = ventanaPersona.getTxtDepartamento().getText();
-		LocalidadDTO localidad = (LocalidadDTO) ventanaPersona.getComboLocalidad().getSelectedItem();
-		String email = ventanaPersona.getTxtEmail().getText();
-		TipoContactoDTO tipoContacto = (TipoContactoDTO) ventanaPersona.getComboTipoContacto().getSelectedItem();
-		String accion = this.ventanaPersona.getBtnAgregarPersona().getActionCommand();
-		if(accion.equals("agregar")) {
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, telefono, calle, nacimiento, altura, piso, departamento,
-					localidad, email, tipoContacto);
-			this.agenda.agregarPersona(nuevaPersona);
-		}
-		else if(accion.equals("editar")) {
-			personaSeleccionada.setNombre(nombre);
-			personaSeleccionada.setTelefono(telefono);
-			personaSeleccionada.setCalle(calle);
-			personaSeleccionada.setNacimiento(nacimiento);
-			personaSeleccionada.setAltura(altura);
-			personaSeleccionada.setPiso(piso);
-			personaSeleccionada.setDepartamento(departamento);
-			personaSeleccionada.setLocalidad(localidad);
-			personaSeleccionada.setEmail(email);
-			personaSeleccionada.setTipoContacto(tipoContacto);
-			this.agenda.editarPersona(personaSeleccionada);
-		}
-		this.refrescarTabla();
-		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente" );
-		this.ventanaPersona.cerrar();
+		if(ventanaPersona.validarDatos()) {
+			String nombre = this.ventanaPersona.getTxtNombre().getText();
+			String telefono = ventanaPersona.getTxtTelefono().getText();
+			String calle = ventanaPersona.getTxtCalle().getText();
+			Date nacimiento = ventanaPersona.getChooserNacimiento().getDate();
+			String alturaAux = ventanaPersona.getTxtAltura().getText();
+			int altura = Integer.parseInt(alturaAux);
+			int piso = Integer.parseInt(ventanaPersona.getTxtPiso().getText());
+			String departamento = ventanaPersona.getTxtDepartamento().getText();
+			LocalidadDTO localidad = (LocalidadDTO) ventanaPersona.getComboLocalidad().getSelectedItem();
+			String email = ventanaPersona.getTxtEmail().getText();
+			TipoContactoDTO tipoContacto = (TipoContactoDTO) ventanaPersona.getComboTipoContacto().getSelectedItem();
+			String accion = this.ventanaPersona.getBtnAgregarPersona().getActionCommand();
+		
+			if(accion.equals("agregar")) {
+				PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, telefono, calle, nacimiento, altura, piso, departamento,
+						localidad, email, tipoContacto);
+				this.agenda.agregarPersona(nuevaPersona);
+			}
+			else if(accion.equals("editar")) {
+				personaSeleccionada.setNombre(nombre);
+				personaSeleccionada.setTelefono(telefono);
+				personaSeleccionada.setCalle(calle);
+				personaSeleccionada.setNacimiento(nacimiento);
+				personaSeleccionada.setAltura(altura);
+				personaSeleccionada.setPiso(piso);
+				personaSeleccionada.setDepartamento(departamento);
+				personaSeleccionada.setLocalidad(localidad);
+				personaSeleccionada.setEmail(email);
+				personaSeleccionada.setTipoContacto(tipoContacto);
+				this.agenda.editarPersona(personaSeleccionada);
+			}
+			this.refrescarTabla();
+			JOptionPane.showMessageDialog(null, "Datos guardados exitosamente" );
+			this.ventanaPersona.cerrar();
+		}		
 	}
 		
 	private void guardarTipoContacto(ActionEvent a) {
@@ -140,11 +158,11 @@ public class Controlador {
 		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
 		this.editorTipoContacto.cerrar();
 		
-		refrescarLocalidades();
+		refrescarTiposContacto();
 	}
 	
 	private void ventanaTipoContacto(ActionEvent l) {
-		refrescarLocalidades();
+		refrescarTiposContacto();
 		this.ventanaTipoContacto.mostrarVentana();
 	}
 
@@ -170,7 +188,63 @@ public class Controlador {
 			this.agenda.borrarTipoDeContacto(this.tipoContactoSeleccionado);
 			
 			JOptionPane.showMessageDialog(null, "Tipo contacto eliminado exitosamente" );
-			refrescarLocalidades();
+			refrescarTiposContacto();
+		}
+	}
+
+	///
+	private void guardarDeporte(ActionEvent a) {
+		String accion = this.editorDeporte.getBtnAceptar().getActionCommand();
+		String tipo = this.editorDeporte.getTxtNombre().getText();
+		if(accion.equals("agregar")) {
+			DeporteDTO deporte = new DeporteDTO();
+			deporte.setNombre(tipo);;
+			this.agenda.agregarDeporte(deporte);
+		}
+		else if(accion.equals("editar")) {
+			this.deporteSeleccionado.setNombre(tipo);
+			this.agenda.editarDeporte(deporteSeleccionado);
+		}
+		
+		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
+		this.editorDeporte.cerrar();
+		
+		refrescarDeportes();
+	}
+	
+	private void refrescarDeportes() {
+		this.deportes = this.agenda.obtenerDeportes();
+		this.ventanaDeportes.llenarTabla(deportes);
+	}
+	
+	private void ventanaDeporte(ActionEvent l) {
+		refrescarDeportes();
+		this.ventanaDeportes.mostrarVentana();
+	}
+
+	private void agregarDeporte(ActionEvent a) {
+		this.editorDeporte.getBtnAceptar().setActionCommand("agregar");//para indicar que voy a guardar una nueva localidad.
+		this.editorDeporte.mostrarVentana();
+	}
+
+	private void editarDeporte(ActionEvent e) {
+		int fila = this.ventanaDeportes.obtenerFilaSeleccionada();
+		if(fila>-1) {
+			this.deporteSeleccionado = this.deportes.get(fila);
+			this.editorDeporte.getTxtNombre().setText(this.deporteSeleccionado.getNombre());
+			this.editorDeporte.getBtnAceptar().setActionCommand("editar");//para indicar que voy a actualizar un tipo de contacto existente.
+			this.editorDeporte.mostrarVentana();
+		}
+	}
+	
+	private void borrarDeporte(ActionEvent b) {
+		int fila = this.ventanaDeportes.obtenerFilaSeleccionada();
+		if(fila > -1) {
+			this.deporteSeleccionado = this.deportes.get(fila);
+			this.agenda.borrarDeporte(this.deporteSeleccionado);
+			
+			JOptionPane.showMessageDialog(null, "Tipo contacto eliminado exitosamente" );
+			refrescarTiposContacto();
 		}
 	}
 
@@ -184,7 +258,6 @@ public class Controlador {
 		for (int fila : filasSeleccionadas) {
 			this.agenda.borrarPersona(this.personasEnTabla.get(fila));
 		}
-		
 		JOptionPane.showMessageDialog(null , "Contacto eliminado exitosamente");
 		this.refrescarTabla();
 	}
@@ -194,7 +267,7 @@ public class Controlador {
 		this.vista.show();
 	}
 	
-	private void refrescarLocalidades() {
+	private void refrescarTiposContacto() {
 		this.tiposContacto = this.agenda.obtenerTipoDeContacto();
 		this.ventanaTipoContacto.llenarTabla(tiposContacto);
 	}

@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS `agenda`;
+DROP DATABASE `agenda`;
 CREATE DATABASE `agenda` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `agenda`;
 CREATE TABLE `pais` (
@@ -27,6 +27,11 @@ CREATE TABLE `tipocontacto` (
   `tipo` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoContacto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `deporte` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `personas` (
   `idPersona` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) NOT NULL,
@@ -39,9 +44,12 @@ CREATE TABLE `personas` (
   `Email` varchar(45) NOT NULL,
   `localidad` int NOT NULL,
   `tipoDeContacto` int NOT NULL,
+  `deporte` int NOT NULL,
   PRIMARY KEY (`idPersona`),
   KEY `fk_localidad_idx` (`localidad`),
   KEY `fk_tipoDeContacto_idx` (`tipoDeContacto`),
+  KEY `fk_deporte_idx` (`deporte`),
+  CONSTRAINT `fk_deporte` FOREIGN KEY (`deporte`) REFERENCES `deporte` (`id`),
   CONSTRAINT `fk_localidad` FOREIGN KEY (`localidad`) REFERENCES `localidad` (`idlocalidad`),
   CONSTRAINT `fk_tipoDeContacto` FOREIGN KEY (`tipoDeContacto`) REFERENCES `tipocontacto` (`idTipoContacto`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;

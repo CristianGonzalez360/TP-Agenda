@@ -3,6 +3,7 @@ package presentacion.vista;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -155,5 +156,16 @@ public class PanelEditorPais extends JPanel {
 
 	public ProvinciaDTO getProvinciaSeleccionada() {
 		return this.listaProvincias.getSelectedValue();
+	}
+	
+	public boolean validarDatos() {
+		String mensaje = "";
+		if(getTxtNombre().getText().equals("") ) {
+			mensaje += "Ingrese un nombre";
+		}
+		if(!mensaje.isEmpty()) {
+			JOptionPane.showMessageDialog(null, mensaje, "Error al guardar", JOptionPane.ERROR_MESSAGE);
+		}
+		return mensaje.isEmpty();
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import dto.LocalidadDTO;
@@ -212,5 +213,20 @@ public class PanelEditorLocalidad extends JPanel {
 
 	public LocalidadDTO getLocalidadSeleccionada() {
 		return (LocalidadDTO) this.comboLocalidades.getSelectedItem();
+	}
+	
+	public boolean validarDatos() {
+		String mensaje = "";
+		if(getTxtNombre().getText().equals("") ) {
+			mensaje += "Ingrese un nombre";
+		}
+		else if(getComboProvincias().getSelectedItem() == null) {
+			mensaje += "\nSeleccione una provincia";
+		}
+		
+		if(!mensaje.isEmpty()) {
+			JOptionPane.showMessageDialog(null, mensaje, "Error al guardar", JOptionPane.ERROR_MESSAGE);
+		}
+		return mensaje.isEmpty();
 	}
 }

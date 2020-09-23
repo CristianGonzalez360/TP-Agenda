@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -230,5 +231,19 @@ public class PanelEditorProvincia extends JPanel {
 
 	public LocalidadDTO getLocalidadSeleccionada() {
 		return this.listaLocalidades.getSelectedValue();
+	}
+	
+	public boolean validarDatos() {
+		String mensaje = "";
+		if(getTxtNombre().getText().equals("")) {
+			mensaje += "Ingrese un nombre";
+		}
+		else if(getComboPaises().getSelectedItem() == null) {
+			mensaje += "\nSeleccione un país";
+		}
+		if(!mensaje.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Seleccione un país", "Error al guardar", JOptionPane.ERROR_MESSAGE);
+		}
+		return mensaje.isEmpty();
 	}
 }

@@ -4,6 +4,7 @@
 package persistencia.dao.mysql;
 
 import persistencia.dao.interfaz.DAOAbstractFactory;
+import persistencia.dao.interfaz.DeporteDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
@@ -38,6 +39,11 @@ public class DAOSQLFactory implements DAOAbstractFactory {
 	@Override
 	public PaisDAO createPaisDAO() {
 		return new PaisDAOSQL();
+	}
+
+	@Override
+	public DeporteDAO createDeporteDAO() {
+		return new DeporteDAOSQL();
 	}
 
 }

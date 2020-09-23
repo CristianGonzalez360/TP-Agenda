@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -42,7 +43,6 @@ public class VentanaPersona extends JFrame {
 
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
-	
 
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
@@ -75,13 +75,10 @@ public class VentanaPersona extends JFrame {
 		lblTelfono.setBounds(10, 35, 113, 14);
 		panel.add(lblTelfono);
 
-		
-
 		JLabel lblNacimiento = new JLabel("Nacimiento");
 		lblNacimiento.setBounds(10, 66, 113, 14);
 		panel.add(lblNacimiento);
-		
-		
+
 		JLabel lblCalle = new JLabel("Calle");
 		lblCalle.setBounds(10, 94, 113, 14);
 		panel.add(lblCalle);
@@ -158,11 +155,11 @@ public class VentanaPersona extends JFrame {
 		comboTipoContacto = new JComboBox<>();
 		comboTipoContacto.setBounds(133, 342, 164, 20);
 		panel.add(comboTipoContacto);
-		
+
 		JLabel lblPas = new JLabel("País");
 		lblPas.setBounds(10, 252, 113, 14);
 		panel.add(lblPas);
-		
+
 		comboPais = new JComboBox<>();
 		comboPais.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -174,11 +171,11 @@ public class VentanaPersona extends JFrame {
 		});
 		comboPais.setBounds(133, 249, 164, 20);
 		panel.add(comboPais);
-		
+
 		JLabel lblProvincia = new JLabel("Provincia");
 		lblProvincia.setBounds(10, 283, 113, 14);
 		panel.add(lblProvincia);
-		
+
 		comboProvincia = new JComboBox<>();
 		comboProvincia.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -190,12 +187,12 @@ public class VentanaPersona extends JFrame {
 		});
 		comboProvincia.setBounds(133, 280, 164, 20);
 		panel.add(comboProvincia);
-		
+
 		JPanel panelBotones = new JPanel();
 		contentPane.add(panelBotones, BorderLayout.SOUTH);
-		
+
 		// Boton
-		
+
 		btnAgregarPersona = new JButton("Guardar");
 		panelBotones.add(btnAgregarPersona);
 
@@ -247,7 +244,7 @@ public class VentanaPersona extends JFrame {
 	public JComboBox<TipoContactoDTO> getComboTipoContacto() {
 		return comboTipoContacto;
 	}
-	
+
 	public JComboBox<PaisDTO> getComboPais() {
 		return comboPais;
 	}
@@ -262,27 +259,27 @@ public class VentanaPersona extends JFrame {
 		this.txtNombre.setText(null);
 		this.txtTelefono.setText(null);
 		this.txtCalle.setText(null);
-		this.chooserNacimiento.setDate(new Date());
+		this.chooserNacimiento.setDate(null);
 		this.txtAltura.setText(null);
 		this.txtPiso.setText(null);
 		this.txtDepartamento.setText(null);
 		this.txtEmail.setText(null);
-		if(this.comboPais.getItemCount() > 0) {
+		if (this.comboPais.getItemCount() > 0) {
 			this.comboPais.setSelectedIndex(0);
 		}
-		if(this.comboTipoContacto.getItemCount() > 0) {
+		if (this.comboTipoContacto.getItemCount() > 0) {
 			this.comboTipoContacto.setSelectedIndex(0);
 		}
 		this.dispose();
 	}
-	
+
 	public void mostrarPaises(List<PaisDTO> paises) {
 		getComboPais().removeAllItems();
 		for (PaisDTO pais : paises) {
 			getComboPais().addItem(pais);
 		}
 	}
-	
+
 	protected void mostrarLocalidades(List<LocalidadDTO> localidades) {
 		comboLocalidad.removeAllItems();
 		for (LocalidadDTO l : localidades) {
@@ -296,7 +293,7 @@ public class VentanaPersona extends JFrame {
 			comboProvincia.addItem(p);
 		}
 	}
-	
+
 	public void mostrarTiposDeContacto(List<TipoContactoDTO> tipos) {
 		DefaultComboBoxModel<TipoContactoDTO> dcm = new DefaultComboBoxModel<>();
 		for (TipoContactoDTO t : tipos) {
@@ -318,5 +315,36 @@ public class VentanaPersona extends JFrame {
 		this.comboProvincia.setSelectedItem(persona.getLocalidad().getProvincia());
 		this.comboPais.setSelectedItem(persona.getLocalidad().getProvincia().getPais());
 		this.comboTipoContacto.setSelectedItem(persona.getTipoContacto());
+	}
+
+	public boolean validarDatos() {
+		String mensaje = "";
+		if (!getTxtNombre().getText().matches("[a-zA-Záéíóú ]+"))
+			mensaje = "El contacto debe tener un nombre!";
+		if (!getTxtTelefono().getText().matches("[0-9\\-\\+ ]+"))
+			mensaje = mensaje + "\nEl contacto debe tener un número de teléfono! (números, espacios y signos + y -)";
+		if (getTxtCalle().getText().trim().isEmpty())
+			mensaje = mensaje + "\nDebe ingresar el nombre de la calle donde vive el contacto!";
+		if (getChooserNacimiento().getDate() == null)
+			mensaje = mensaje + "\nDebe seleccionar una fecha de nacimiento!";
+		if (getChooserNacimiento().getDate() != null && getChooserNacimiento().getDate().after(new Date()))
+			mensaje = mensaje + "\nDebe seleccionar una fecha anterior al día de hoy!";
+		if (!getTxtAltura().getText().matches("[0-9]+"))
+			mensaje = mensaje + "\nDebe especificar un número de calle válido!";
+		if (!getTxtPiso().getText().matches("[0-9]+"))
+			mensaje = mensaje + "\nDebe especificar un piso válido!";
+		if (getComboLocalidad().getSelectedIndex() == -1)
+			mensaje = mensaje + "\nDebe seleccionar un tipo de contacto!";
+		if (!getTxtEmail().getText().matches(
+				"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
+			mensaje = mensaje + "\nSe debe ingresar una dirección de email válida!";
+		if (getComboTipoContacto().getSelectedIndex() == -1)
+			mensaje = mensaje + "\nDebe seleccionar un tipo de contacto!";
+
+		if (!mensaje.isEmpty()) {
+			JOptionPane.showMessageDialog(this, mensaje, "Error al guardar", JOptionPane.ERROR_MESSAGE);
+		}
+
+		return mensaje.isEmpty();
 	}
 }

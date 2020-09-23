@@ -37,6 +37,7 @@ public class Vista {
 	private JMenuItem mntmTiposDeContacto;
 	private JMenuItem mntmProvincias;
 	private JMenuItem mntmPaises;
+	private JMenuItem mntmDeporte;
 
 	public Vista() {
 		super();
@@ -103,10 +104,11 @@ public class Vista {
 		
 		mntmTiposDeContacto = new JMenuItem("Tipos de Contacto");
 		mnAdministracin.add(mntmTiposDeContacto);
+		
+		mntmDeporte = new JMenuItem("Deporte");
+		mnAdministracin.add(mntmDeporte);
 
 		panel.add(botones, BorderLayout.SOUTH);
-		
-		
 	}
 
 	public void show() {
@@ -156,6 +158,10 @@ public class Vista {
 
 	public JMenuItem getMntmTiposDeContacto() {
 		return mntmTiposDeContacto;
+	}
+
+	public JMenuItem getMntmDeporte() {
+		return mntmDeporte;
 	}
 
 	public DefaultTableModel getModelPersonas() {
