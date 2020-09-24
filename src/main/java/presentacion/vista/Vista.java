@@ -32,7 +32,7 @@ public class Vista {
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
 	private String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Nacimiento","Calle",  "Altura", "Piso",
-			"Departamento", "EMail","Pais", "Provincia", "Localidad", "TipoDeContacto" };
+			"Departamento", "EMail","Pais", "Provincia", "Localidad", "TipoDeContacto", "Deporte" };
 	private JMenuItem mntmLocalidades;
 	private JMenuItem mntmTiposDeContacto;
 	private JMenuItem mntmProvincias;
@@ -185,7 +185,7 @@ public class Vista {
 			Object[] fila = { persona.getNombre(), persona.getTelefono(),getFecha(persona.getNacimiento()), persona.getCalle(),
 					 persona.getAltura(), persona.getPiso(),
 					persona.getDepartamento(), persona.getEmail(),persona.getLocalidad() ,persona.getLocalidad().getProvincia(), persona.getLocalidad().getNombre(),
-					persona.getTipoContacto().getTipo() }; 
+					persona.getTipoContacto().getTipo(), persona.getDeporte().getNombre() }; 
 			this.getModelPersonas().addRow(fila);
 		}
 	}

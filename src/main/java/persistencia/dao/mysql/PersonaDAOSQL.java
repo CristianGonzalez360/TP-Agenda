@@ -13,10 +13,10 @@ import dto.LocalidadDTO;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
-	private static final String insert = "INSERT INTO personas(idPersona,nombre,telefono,calle,Nacimiento,altura,piso,departamento,email,localidad,tipoDeContacto) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String insert = "INSERT INTO personas(idPersona,nombre,telefono,calle,Nacimiento,altura,piso,departamento,email,localidad,tipoDeContacto,deporte) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE `agenda`.`personas` SET `Nombre` = ?, `Telefono` = ?, `Calle` = ?, `Nacimiento` = ?, `Altura` = ?, `Piso` = ?, `Departamento` = ?, `Email` = ?,`Localidad` = ?,`tipoDeContacto` = ? WHERE `idPersona` = ?";
+	private static final String update = "UPDATE `agenda`.`personas` SET `Nombre` = ?, `Telefono` = ?, `Calle` = ?, `Nacimiento` = ?, `Altura` = ?, `Piso` = ?, `Departamento` = ?, `Email` = ?,`Localidad` = ?,`tipoDeContacto` = ?, `deporte` = ? WHERE `idPersona` = ?";
 
 	public boolean insert(PersonaDTO persona) {
 		boolean ret = false;
@@ -34,7 +34,8 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
 			statement.setInt(10, persona.getLocalidad().getId());
-			statement.setInt(11, persona.getTipoContacto().getIdTipoContacto()); 
+			statement.setInt(11, persona.getTipoContacto().getId()); 
+			statement.setInt(12, persona.getDeporte().getId());
 			
 			if (statement.executeUpdate() > 0)
 				ret = true;
@@ -71,12 +72,13 @@ public class PersonaDAOSQL implements PersonaDAO {
 			resultSet = statement.executeQuery();
 			LocalidadDAOSQL localidad = new LocalidadDAOSQL();
 			TipoContactoDAOSQL tipoDeContacto = new TipoContactoDAOSQL();
+			DeporteDAOSQL deporte = new DeporteDAOSQL();
 			while (resultSet.next()) {
 				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"),
 						resultSet.getString("Telefono"), resultSet.getString("Calle"), resultSet.getDate("Nacimiento"),
 						resultSet.getInt("Altura"), resultSet.getInt("Piso"), resultSet.getString("Departamento"),
 						localidad.get(resultSet.getInt("localidad")), resultSet.getString("Email"),
-						tipoDeContacto.get(resultSet.getInt("tipoDeContacto"))));
+						tipoDeContacto.get(resultSet.getInt("tipoDeContacto")), deporte.get(resultSet.getInt("deporte"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,13 +100,11 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setInt(6, persona.getPiso());
 			statement.setString(7, persona.getDepartamento());
 			statement.setString(8, persona.getEmail());
-			
 			statement.setInt(9, persona.getLocalidad().getId()); 
-			
-			statement.setInt(10, persona.getTipoContacto().getIdTipoContacto()); 			
-			
-			statement.setInt(11, persona.getIdPersona());
-			
+			statement.setInt(10, persona.getTipoContacto().getId()); 	
+			statement.setInt(11, persona.getDeporte().getId());
+			statement.setInt(12, persona.getIdPersona());
+
 			if (statement.executeUpdate() > 0)
 				ret = true;
 		} catch (SQLException e) {

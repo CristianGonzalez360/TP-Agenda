@@ -45,7 +45,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 		Conexion conexion = Conexion.getConexion();
 		try {
 			statement = conexion.getSQLConexion().prepareStatement(delete);
-			statement.setInt(1, tipoContacto_a_eliminar.getIdTipoContacto());
+			statement.setInt(1, tipoContacto_a_eliminar.getId());
 			chequeoUpdate = statement.executeUpdate();
 			if (chequeoUpdate > 0) // Si se ejecutó devuelvo true
 				ret = true;
@@ -69,7 +69,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 
 			while (resultSet.next()) {
 				TipoContactoDTO tipoContacto = new TipoContactoDTO();
-				tipoContacto.setIdTipoContacto(resultSet.getInt("idTipoContacto"));
+				tipoContacto.setId(resultSet.getInt("idTipoContacto"));
 				tipoContacto.setTipo(resultSet.getString("tipo"));
 				tiposDeContacto.add(tipoContacto);
 			}
@@ -87,7 +87,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 		try {
 			statement = conexion.getSQLConexion().prepareStatement(update);
 			statement.setString(1, tipoContacto_a_editar.getTipo());
-			statement.setInt(2, tipoContacto_a_editar.getIdTipoContacto());
+			statement.setInt(2, tipoContacto_a_editar.getId());
 			if (statement.executeUpdate() > 0) // Si se ejecut� devuelvo true
 				ret = true;
 		} catch (SQLException e) {
@@ -109,7 +109,7 @@ public class TipoContactoDAOSQL implements TipoContactoDAO {
 
 			while (resultSet.next()) {
 				tipoContacto = new TipoContactoDTO();
-				tipoContacto.setIdTipoContacto(resultSet.getInt("idTipoContacto"));
+				tipoContacto.setId(resultSet.getInt("idTipoContacto"));
 				tipoContacto.setTipo(resultSet.getString("tipo"));
 			}
 		} catch (SQLException e) {

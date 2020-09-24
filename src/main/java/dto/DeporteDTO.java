@@ -25,4 +25,14 @@ public class DeporteDTO {
 	public String toString() {
 		return getNombre();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean ret = false;
+		if(obj instanceof DeporteDTO) {
+			DeporteDTO d = (DeporteDTO) obj;
+			ret = d.getId() == this.id;
+		}
+		return ret;
+	}
 }

@@ -22,7 +22,6 @@ public class DeporteDAOSQL implements DeporteDAO {
 	private static final String readall = "SELECT * FROM deporte";
 	private static final String update = "UPDATE deporte SET `nombre` = ? WHERE id = ?";
 
-
 	@Override
 	public boolean insert(DeporteDTO deporte) {
 		boolean ret = false;
@@ -96,6 +95,29 @@ public class DeporteDAOSQL implements DeporteDAO {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	@Override
+	public DeporteDTO get(int id) {
+		String query = "SELECT * FROM deporte WHERE id = ?";
+		ResultSet resultSet;
+		DeporteDTO deporte = null;
+		Conexion conexion = Conexion.getConexion();
+		PreparedStatement statement;
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(query);
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				deporte = new DeporteDTO();
+				deporte.setId(resultSet.getInt("id"));
+				deporte.setNombre(resultSet.getString("nombre"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return deporte;
 	}
 
 }

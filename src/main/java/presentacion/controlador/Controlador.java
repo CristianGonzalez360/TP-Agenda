@@ -116,11 +116,12 @@ public class Controlador {
 			LocalidadDTO localidad = (LocalidadDTO) ventanaPersona.getComboLocalidad().getSelectedItem();
 			String email = ventanaPersona.getTxtEmail().getText();
 			TipoContactoDTO tipoContacto = (TipoContactoDTO) ventanaPersona.getComboTipoContacto().getSelectedItem();
+			DeporteDTO deporte = (DeporteDTO) ventanaPersona.getComboDeporte().getSelectedItem();
 			String accion = this.ventanaPersona.getBtnAgregarPersona().getActionCommand();
 		
 			if(accion.equals("agregar")) {
 				PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, telefono, calle, nacimiento, altura, piso, departamento,
-						localidad, email, tipoContacto);
+						localidad, email, tipoContacto, deporte);
 				this.agenda.agregarPersona(nuevaPersona);
 			}
 			else if(accion.equals("editar")) {
@@ -134,6 +135,7 @@ public class Controlador {
 				personaSeleccionada.setLocalidad(localidad);
 				personaSeleccionada.setEmail(email);
 				personaSeleccionada.setTipoContacto(tipoContacto);
+				personaSeleccionada.setDeporte(deporte);
 				this.agenda.editarPersona(personaSeleccionada);
 			}
 			this.refrescarTabla();
@@ -275,6 +277,7 @@ public class Controlador {
 	public void refrescarVentanaPersonas() {
 		this.ventanaPersona.mostrarPaises(this.agenda.obtenerPaises());
 		this.ventanaPersona.mostrarTiposDeContacto(this.agenda.obtenerTipoDeContacto());
+		this.ventanaPersona.mostrarDeportes(this.agenda.obtenerDeportes());
 	}
 	
 	private void refrescarTabla() {

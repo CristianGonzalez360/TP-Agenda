@@ -12,4 +12,6 @@ public interface DeporteDAO {
 	public List<DeporteDTO> readAll();
 	
 	public boolean update(DeporteDTO deporte);
+
+	public DeporteDTO get(int id);
 }

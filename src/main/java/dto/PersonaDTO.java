@@ -15,6 +15,7 @@ public class PersonaDTO
 	private LocalidadDTO localidad;
 	private String email;
 	private TipoContactoDTO tipoContacto;
+	private DeporteDTO deporte;
 
 	public PersonaDTO(int idPersona, String nombre, String telefono) /// borrar??
 	{
@@ -24,7 +25,7 @@ public class PersonaDTO
 	}
 	
 	public PersonaDTO(int idPersona, String nombre, String telefono, String calle, Date Nacimiento, int altura,
-			int piso, String departamento, LocalidadDTO localidad, String email, TipoContactoDTO tipoContacto) {
+			int piso, String departamento, LocalidadDTO localidad, String email, TipoContactoDTO tipoContacto, DeporteDTO deporte) {
 		super();
 		this.idPersona = idPersona;
 		this.nombre = nombre;
@@ -37,6 +38,7 @@ public class PersonaDTO
 		this.localidad = localidad;
 		this.email = email;
 		this.tipoContacto = tipoContacto;
+		this.setDeporte(deporte);
 	}
 
 	public int getIdPersona() 
@@ -131,5 +133,13 @@ public class PersonaDTO
 
 	public void setDepartamento(String departamento) {
 		this.departamento = departamento;
+	}
+
+	public DeporteDTO getDeporte() {
+		return deporte;
+	}
+
+	public void setDeporte(DeporteDTO deporte) {
+		this.deporte = deporte;
 	}
 }
