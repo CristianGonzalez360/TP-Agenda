@@ -142,7 +142,7 @@
 					<textFieldExpression><![CDATA[$V{deporte1}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="640" y="10" width="51" height="30" uuid="6e107e7a-2776-4ec1-92f2-726eb52e6909"/>
+					<reportElement x="650" y="10" width="41" height="30" uuid="6e107e7a-2776-4ec1-92f2-726eb52e6909"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total:]]></text>
 				</staticText>
