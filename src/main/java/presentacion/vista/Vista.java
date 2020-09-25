@@ -38,6 +38,7 @@ public class Vista {
 	private JMenuItem mntmProvincias;
 	private JMenuItem mntmPaises;
 	private JMenuItem mntmDeporte;
+	private JMenuItem mntmBaseDeDatos;
 
 	public Vista() {
 		super();
@@ -107,6 +108,13 @@ public class Vista {
 		
 		mntmDeporte = new JMenuItem("Deporte");
 		mnAdministracin.add(mntmDeporte);
+		
+		JMenu mnConfiguracion = new JMenu("Configuración");
+		menuBar.add(mnAdministracin);
+		
+		mntmBaseDeDatos = new JMenuItem("Base de Datos");
+		mnConfiguracion.add(mntmBaseDeDatos);
+		menuBar.add(mnConfiguracion);
 
 		panel.add(botones, BorderLayout.SOUTH);
 	}
@@ -164,6 +172,10 @@ public class Vista {
 		return mntmDeporte;
 	}
 
+	public JMenuItem getMntmBaseDeDatos() {
+		return mntmBaseDeDatos;
+	}
+
 	public DefaultTableModel getModelPersonas() {
 		return modelPersonas;
 	}
@@ -197,5 +209,9 @@ public class Vista {
 		} else {
 			return null;
 		}
+	}
+
+	public void ocultar() {
+		this.frame.setVisible(false);
 	}
 }

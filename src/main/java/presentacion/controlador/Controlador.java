@@ -3,11 +3,12 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import modelo.Agenda;
+import persistencia.conexion.Conexion;
+import persistencia.conexion.DBProperties;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.ConfiguradorBD;
 import presentacion.vista.EditorDeporte;
 import presentacion.vista.EditorTipoContacto;
 import presentacion.vista.VentanaDeportes;
@@ -35,6 +36,9 @@ public class Controlador {
 	private VistaEditor vistaEditor;
 	private ControladorEditor controladorEditor;
 	
+	private ConfiguradorBD configuradorBD;
+	private DBProperties dbProperties;
+	
 	private Agenda agenda;
 	private List<DeporteDTO> deportes;
 	private VentanaDeportes ventanaDeportes;
@@ -42,11 +46,14 @@ public class Controlador {
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
 		this.agenda = agenda;
+		this.configuradorBD = ConfiguradorBD.getInstance();
+		this.dbProperties = DBProperties.getInstance();
 		this.ventanaTipoContacto = VentanaTipoDeContacto.getInstance();
 		this.editorTipoContacto = EditorTipoContacto.getInstance();
 		this.editorDeporte = EditorDeporte.getInstance();
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaDeportes = VentanaDeportes.getInstance();
+		this.configuradorBD.getOkButton().addActionListener(c -> guardarDBProperties());
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -56,6 +63,7 @@ public class Controlador {
 		this.vista.getMntmProvincias().addActionListener(p -> editarProvincia(p));
 		this.vista.getMntmTiposDeContacto().addActionListener(vc -> ventanaTipoContacto(vc));
 		this.vista.getMntmDeporte().addActionListener(vd -> ventanaDeporte(vd));
+		this.vista.getMntmBaseDeDatos().addActionListener(bd -> configurarBD());
 		this.ventanaTipoContacto.getBtnAgregar().addActionListener(ac -> agregarTipoContacto(ac));
 		this.ventanaTipoContacto.getBtnEditar().addActionListener(ec -> editarTipoContacto(ec));
 		this.ventanaTipoContacto.getBtnBorrar().addActionListener(bc -> borrarTipoContacto(bc));
@@ -65,11 +73,42 @@ public class Controlador {
 		this.ventanaDeportes.getBtnBorrar().addActionListener(bd -> borrarDeporte(bd));
 		this.editorDeporte.getBtnAceptar().addActionListener(gd -> guardarDeporte(gd));
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
-		
+	}
+	
+	public void iniciar() {
+		Conexion.getConexion().cerrarConexion();
+		if (Conexion.getConexion().conectar()) {
+			mostrar();
+		}
+		else {
+			configurarBD();
+		}
+	}
+	
+	private void guardarDBProperties() {
+		dbProperties.put("db_prefijo", configuradorBD.getTxtPrefijo().getText());
+		dbProperties.put("db_ip", configuradorBD.getTxtIp().getText());
+		dbProperties.put("db_puerto", configuradorBD.getTxtPuerto().getText());
+		dbProperties.put("db_nombre", configuradorBD.getTxtNombredebd().getText());
+		dbProperties.put("db_usuario", configuradorBD.getTxtUsuario().getText());
+		dbProperties.put("db_password", new String(configuradorBD.getPwdContrasea().getPassword()));
+		dbProperties.guardar();
+		this.configuradorBD.dispose();
+		iniciar();
+	}
+	
+	public void mostrar() {	
 		this.vistaEditor = new VistaEditor();
 		this.controladorEditor = new ControladorEditor(vistaEditor, agenda);
-		
 		refrescarVentanaPersonas();
+		this.refrescarTabla();
+		this.vista.show();
+	}
+	
+	private void configurarBD() {
+		this.vista.ocultar();
+		this.configuradorBD.mostrar(dbProperties.getDbProperties());
+		this.configuradorBD.setVisible(true);
 	}
 
 	private void editarLocalidades(ActionEvent l) {
@@ -262,11 +301,6 @@ public class Controlador {
 		}
 		JOptionPane.showMessageDialog(null , "Contacto eliminado exitosamente");
 		this.refrescarTabla();
-	}
-
-	public void inicializar() {
-		this.refrescarTabla();
-		this.vista.show();
 	}
 	
 	private void refrescarTiposContacto() {
