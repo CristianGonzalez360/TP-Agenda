@@ -24,13 +24,22 @@
 	<field name="tipoContacto" class="dto.TipoContactoDTO">
 		<fieldDescription><![CDATA[tipoContacto]]></fieldDescription>
 	</field>
+	<field name="deporte" class="dto.DeporteDTO">
+		<fieldDescription><![CDATA[deporte]]></fieldDescription>
+	</field>
+	<variable name="DeporteCount" class="java.lang.Integer" resetType="None" calculation="DistinctCount">
+		<initialValueExpression><![CDATA[$F{deporte}]]></initialValueExpression>
+	</variable>
+	<variable name="deporte1" class="java.lang.Integer" resetType="Column" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{deporte}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="45" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="642" height="40" uuid="fbf866cd-64dc-4043-b98c-ed8d9f31d19c"/>
+				<reportElement x="0" y="0" width="790" height="40" uuid="fbf866cd-64dc-4043-b98c-ed8d9f31d19c"/>
 				<staticText>
 					<reportElement x="0" y="10" width="170" height="30" uuid="df09700e-f0a8-43aa-a9d6-1430d1a7476d"/>
 					<textElement>
@@ -39,11 +48,11 @@
 					<text><![CDATA[Reporte de personas]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="581" y="2" width="56" height="20" uuid="0706116d-f632-4605-96d8-35fe765b5d67"/>
+					<reportElement x="729" y="10" width="56" height="20" uuid="0706116d-f632-4605-96d8-35fe765b5d67"/>
 					<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="482" y="2" width="102" height="20" uuid="4c9394fa-e0b1-4d17-9e4d-cc7deafc6164"/>
+					<reportElement x="630" y="10" width="102" height="20" uuid="4c9394fa-e0b1-4d17-9e4d-cc7deafc6164"/>
 					<text><![CDATA[Reporte generado el:]]></text>
 				</staticText>
 			</frame>
@@ -108,13 +117,22 @@
 					</textElement>
 					<text><![CDATA[Tipo de Contacto]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="647" y="1" width="90" height="18" uuid="1cb865e8-4f59-4350-b743-4e8c7ca96659">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c21a3a62-54ae-4013-a43a-178f6191686d"/>
+					</reportElement>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Deporte]]></text>
+				</staticText>
 			</frame>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="46" splitType="Stretch">
 			<textField>
-				<reportElement x="5" y="0" width="127" height="18" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
+				<reportElement x="4" y="1" width="127" height="18" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -145,10 +163,25 @@
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{tipoContacto}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="650" y="0" width="90" height="18" uuid="2adb236e-e1c4-4084-bb8c-dfd8f1fb9e60">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c21a3a62-54ae-4013-a43a-178f6191686d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{deporte}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="292" splitType="Stretch"/>
+		<band height="292" splitType="Stretch">
+			<textField>
+				<reportElement x="650" y="0" width="88" height="16" uuid="8ce81c8a-92b1-4c77-a377-997be545da72"/>
+				<textFieldExpression><![CDATA[$V{DeporteCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="0" width="100" height="30" uuid="9029639c-ca98-405e-93e6-21989082fc54"/>
+				<textFieldExpression><![CDATA[$V{deporte1}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="33" splitType="Stretch">
