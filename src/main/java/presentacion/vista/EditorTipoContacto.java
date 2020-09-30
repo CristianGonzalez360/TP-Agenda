@@ -3,6 +3,7 @@ package presentacion.vista;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -74,5 +75,14 @@ public class EditorTipoContacto extends JDialog {
 	public void cerrar() {
 		getTxtNombre().setText(null);
 		dispose();
+	}
+	
+	public boolean validar() {
+		boolean ret = true;
+		if(getTxtNombre().getText().isEmpty()) {
+			ret = false;
+			JOptionPane.showMessageDialog(this, "Ingrece un nombre para el tipo de contacto.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return ret;
 	}
 }

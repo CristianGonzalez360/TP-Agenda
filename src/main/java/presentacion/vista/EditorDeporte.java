@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -73,5 +74,14 @@ public class EditorDeporte extends JDialog {
 	public void cerrar() {
 		getTxtNombre().setText(null);
 		dispose();
+	}
+	
+	public boolean validar() {
+		boolean ret = true;
+		if(getTxtNombre().getText().isEmpty()) {
+			ret = false;
+			JOptionPane.showMessageDialog(this, "Ingrece un nombre para el deporte.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return ret;
 	}
 }

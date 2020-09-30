@@ -16,5 +16,4 @@ public interface PersonaDAO
 	
 	public boolean update(PersonaDTO persona_a_modificar); //editar
 
-	public LocalidadDTO get(int id);
 }

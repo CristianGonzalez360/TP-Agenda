@@ -28,15 +28,23 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4, persona.getCalle());
-			statement.setDate(5, new Date(persona.getNacimiento().getTime())); 
-			statement.setInt(6, persona.getAltura());
-			statement.setInt(7, persona.getPiso());
+			if(persona.getNacimiento() != null)
+				statement.setDate(5, new Date(persona.getNacimiento().getTime()));
+			else
+				statement.setDate(5, null);
+			statement.setString(6, persona.getAltura());
+			statement.setString(7, persona.getPiso());
 			statement.setString(8, persona.getDepartamento());
 			statement.setString(9, persona.getEmail());
-			statement.setInt(10, persona.getLocalidad().getId());
+			if(persona.getLocalidad() != null)
+				statement.setInt(10, persona.getLocalidad().getId());
+			else
+				statement.setInt(10, 0);
 			statement.setInt(11, persona.getTipoContacto().getId()); 
-			statement.setInt(12, persona.getDeporte().getId());
-			
+			if(persona.getDeporte() != null)
+				statement.setInt(12, persona.getDeporte().getId());
+			else
+				statement.setInt(12, 0);
 			if (statement.executeUpdate() > 0)
 				ret = true;
 		} catch (SQLException e) {
@@ -76,7 +84,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			while (resultSet.next()) {
 				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"),
 						resultSet.getString("Telefono"), resultSet.getString("Calle"), resultSet.getDate("Nacimiento"),
-						resultSet.getInt("Altura"), resultSet.getInt("Piso"), resultSet.getString("Departamento"),
+						resultSet.getString("Altura"), resultSet.getString("Piso"), resultSet.getString("Departamento"),
 						localidad.get(resultSet.getInt("localidad")), resultSet.getString("Email"),
 						tipoDeContacto.get(resultSet.getInt("tipoDeContacto")), deporte.get(resultSet.getInt("deporte"))));
 			}
@@ -95,14 +103,23 @@ public class PersonaDAOSQL implements PersonaDAO {
 			statement.setString(1, persona.getNombre());
 			statement.setString(2, persona.getTelefono());
 			statement.setString(3, persona.getCalle());
-			statement.setDate(4, new Date(persona.getNacimiento().getTime())); 
-			statement.setInt(5, persona.getAltura());
-			statement.setInt(6, persona.getPiso());
+			if(persona.getNacimiento() != null)
+				statement.setDate(4, new Date(persona.getNacimiento().getTime()));
+			else
+				statement.setDate(4, null);
+			statement.setString(5, persona.getAltura());
+			statement.setString(6, persona.getPiso());
 			statement.setString(7, persona.getDepartamento());
 			statement.setString(8, persona.getEmail());
-			statement.setInt(9, persona.getLocalidad().getId()); 
-			statement.setInt(10, persona.getTipoContacto().getId()); 	
-			statement.setInt(11, persona.getDeporte().getId());
+			if(persona.getLocalidad() != null)
+				statement.setInt(9, persona.getLocalidad().getId());
+			else
+				statement.setInt(9, 0);
+			statement.setInt(10, persona.getTipoContacto().getId()); 
+			if(persona.getDeporte() != null)
+				statement.setInt(11, persona.getDeporte().getId());
+			else
+				statement.setInt(11, 0);
 			statement.setInt(12, persona.getIdPersona());
 
 			if (statement.executeUpdate() > 0)
@@ -113,26 +130,4 @@ public class PersonaDAOSQL implements PersonaDAO {
 		return ret;
 	}
 	
-	@Override
-	public LocalidadDTO get(int id) {
-		String query = "SELECT * FROM localidad WHERE idlocalidad = ?";
-		ResultSet resultSet;
-		LocalidadDTO localidad = null;
-		Conexion conexion = Conexion.getConexion();
-		PreparedStatement statement;
-		try {
-			statement = conexion.getSQLConexion().prepareStatement(query);
-			statement.setInt(1, id);
-			resultSet = statement.executeQuery();
-			ProvinciaDAOSQL provincia = new ProvinciaDAOSQL();
-			while (resultSet.next()) {
-				localidad = new LocalidadDTO(resultSet.getString("nombre"));
-				localidad.setId(resultSet.getInt("idlocalidad"));
-				localidad.setProvincia(provincia.get(resultSet.getInt("provincia")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return localidad;
-	}
 }

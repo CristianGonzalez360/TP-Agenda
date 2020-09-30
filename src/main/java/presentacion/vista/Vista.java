@@ -17,7 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import dto.DeporteDTO;
+import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
+import dto.TipoContactoDTO;
 
 import javax.swing.JButton;
 
@@ -91,7 +96,7 @@ public class Vista {
 		JMenuBar menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 
-		JMenu mnAdministracin = new JMenu("Administraci\u00F3n");
+		JMenu mnAdministracin = new JMenu("Administración");
 		menuBar.add(mnAdministracin);
 		
 		mntmPaises = new JMenuItem("Paises");
@@ -194,10 +199,19 @@ public class Vista {
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
 
 		for (PersonaDTO persona : personasEnTabla) {
+
+			LocalidadDTO localidad = persona.getLocalidad();
+			ProvinciaDTO provincia = null;
+			PaisDTO pais = null;
+			if(localidad != null) {
+				provincia = localidad.getProvincia();
+				pais = provincia.getPais();
+			}
+			
 			Object[] fila = { persona.getNombre(), persona.getTelefono(),getFecha(persona.getNacimiento()), persona.getCalle(),
 					 persona.getAltura(), persona.getPiso(),
-					persona.getDepartamento(), persona.getEmail(),persona.getLocalidad() ,persona.getLocalidad().getProvincia(), persona.getLocalidad().getNombre(),
-					persona.getTipoContacto().getTipo(), persona.getDeporte().getNombre() }; 
+					persona.getDepartamento(), persona.getEmail(),persona.getLocalidad() ,provincia, pais,
+					persona.getTipoContacto().getTipo(), persona.getDeporte() }; 
 			this.getModelPersonas().addRow(fila);
 		}
 	}

@@ -152,6 +152,7 @@ public class VentanaPersona extends JFrame {
 		txtEmail.setColumns(10);
 
 		comboLocalidad = new JComboBox<>();
+		
 		comboLocalidad.setBounds(133, 301, 164, 20);
 		panel.add(comboLocalidad);
 
@@ -330,9 +331,16 @@ public class VentanaPersona extends JFrame {
 		this.txtPiso.setText(persona.getPiso() + "");
 		this.txtDepartamento.setText(persona.getDepartamento());
 		this.txtEmail.setText(persona.getEmail());
+		LocalidadDTO localidad = persona.getLocalidad();
+		ProvinciaDTO provincia = null;
+		PaisDTO pais = null;
+		if(localidad != null) {
+			provincia = localidad.getProvincia();
+			pais = provincia.getPais();
+		}
 		this.comboLocalidad.setSelectedItem(persona.getLocalidad());
-		this.comboProvincia.setSelectedItem(persona.getLocalidad().getProvincia());
-		this.comboPais.setSelectedItem(persona.getLocalidad().getProvincia().getPais());
+		this.comboProvincia.setSelectedItem(provincia);
+		this.comboPais.setSelectedItem(pais);
 		this.comboTipoContacto.setSelectedItem(persona.getTipoContacto());
 		this.comboDeporte.setSelectedItem(persona.getDeporte());
 	}
@@ -343,24 +351,26 @@ public class VentanaPersona extends JFrame {
 			mensaje = "El contacto debe tener un nombre!";
 		if (!getTxtTelefono().getText().matches("[0-9\\-\\+ ]+"))
 			mensaje = mensaje + "\nEl contacto debe tener un número de teléfono! (números, espacios y signos + y -)";
-		if (getTxtCalle().getText().trim().isEmpty())
-			mensaje = mensaje + "\nDebe ingresar el nombre de la calle donde vive el contacto!";
-		if (getChooserNacimiento().getDate() == null)
-			mensaje = mensaje + "\nDebe seleccionar una fecha de nacimiento!";
+//		if (getTxtCalle().getText().trim().isEmpty())
+//			mensaje = mensaje + "\nDebe ingresar el nombre de la calle donde vive el contacto!";
+//		if (getChooserNacimiento().getDate() == null)
+//			mensaje = mensaje + "\nDebe seleccionar una fecha de nacimiento!";
 		if (getChooserNacimiento().getDate() != null && getChooserNacimiento().getDate().after(new Date()))
 			mensaje = mensaje + "\nDebe seleccionar una fecha anterior al día de hoy!";
-		if (!getTxtAltura().getText().matches("[0-9]+"))
+		if (!getTxtAltura().getText().isEmpty() && !getTxtAltura().getText().matches("[0-9]+"))
 			mensaje = mensaje + "\nDebe especificar un número de calle válido!";
-		if (!getTxtPiso().getText().matches("[0-9]+"))
+		if (!getTxtPiso().getText().isEmpty() && !getTxtPiso().getText().matches("[0-9]+"))
 			mensaje = mensaje + "\nDebe especificar un piso válido!";
-		if (getComboLocalidad().getSelectedIndex() == -1)
-			mensaje = mensaje + "\nDebe seleccionar un tipo de contacto!";
+//		if (getComboLocalidad().getSelectedIndex() == -1)
+//			mensaje = mensaje + "\nDebe seleccionar una localidad!";
 		if (!getTxtEmail().getText().matches(
-				"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
+				"(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
 			mensaje = mensaje + "\nSe debe ingresar una dirección de email válida!";
 		if (getComboTipoContacto().getSelectedIndex() == -1)
 			mensaje = mensaje + "\nDebe seleccionar un tipo de contacto!";
-
+		if(getComboDeporte().getSelectedIndex() == -1) 
+			mensaje = mensaje + "\nDebe seleccionar un deporte!";
+		
 		if (!mensaje.isEmpty()) {
 			JOptionPane.showMessageDialog(this, mensaje, "Error al guardar", JOptionPane.ERROR_MESSAGE);
 		}

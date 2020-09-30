@@ -148,9 +148,8 @@ public class Controlador {
 			String telefono = ventanaPersona.getTxtTelefono().getText();
 			String calle = ventanaPersona.getTxtCalle().getText();
 			Date nacimiento = ventanaPersona.getChooserNacimiento().getDate();
-			String alturaAux = ventanaPersona.getTxtAltura().getText();
-			int altura = Integer.parseInt(alturaAux);
-			int piso = Integer.parseInt(ventanaPersona.getTxtPiso().getText());
+			String altura = ventanaPersona.getTxtAltura().getText();
+			String piso = ventanaPersona.getTxtPiso().getText();
 			String departamento = ventanaPersona.getTxtDepartamento().getText();
 			LocalidadDTO localidad = (LocalidadDTO) ventanaPersona.getComboLocalidad().getSelectedItem();
 			String email = ventanaPersona.getTxtEmail().getText();
@@ -184,22 +183,22 @@ public class Controlador {
 	}
 		
 	private void guardarTipoContacto(ActionEvent a) {
-		String accion = this.editorTipoContacto.getBtnAceptar().getActionCommand();
-		String tipo = this.editorTipoContacto.getTxtNombre().getText();
-		if(accion.equals("agregar")) {
-			TipoContactoDTO tipoContacto = new TipoContactoDTO();
-			tipoContacto.setTipo(tipo);;
-			this.agenda.agregarTipoDeContacto(tipoContacto);
+		if (this.editorTipoContacto.validar()) {
+			String accion = this.editorTipoContacto.getBtnAceptar().getActionCommand();
+			String tipo = this.editorTipoContacto.getTxtNombre().getText();
+			if (accion.equals("agregar")) {
+				TipoContactoDTO tipoContacto = new TipoContactoDTO();
+				tipoContacto.setTipo(tipo);
+				;
+				this.agenda.agregarTipoDeContacto(tipoContacto);
+			} else if (accion.equals("editar")) {
+				this.tipoContactoSeleccionado.setTipo(tipo);
+				this.agenda.editarTipoDeContacto(tipoContactoSeleccionado);
+			}
+			JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
+			this.editorTipoContacto.cerrar();
+			refrescarTiposContacto();
 		}
-		else if(accion.equals("editar")) {
-			this.tipoContactoSeleccionado.setTipo(tipo);
-			this.agenda.editarTipoDeContacto(tipoContactoSeleccionado);
-		}
-		
-		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
-		this.editorTipoContacto.cerrar();
-		
-		refrescarTiposContacto();
 	}
 	
 	private void ventanaTipoContacto(ActionEvent l) {
@@ -233,24 +232,23 @@ public class Controlador {
 		}
 	}
 
-	///
 	private void guardarDeporte(ActionEvent a) {
-		String accion = this.editorDeporte.getBtnAceptar().getActionCommand();
-		String tipo = this.editorDeporte.getTxtNombre().getText();
-		if(accion.equals("agregar")) {
-			DeporteDTO deporte = new DeporteDTO();
-			deporte.setNombre(tipo);;
-			this.agenda.agregarDeporte(deporte);
+		if (editorDeporte.validar()) {
+			String accion = this.editorDeporte.getBtnAceptar().getActionCommand();
+			String tipo = this.editorDeporte.getTxtNombre().getText();
+			if (accion.equals("agregar")) {
+				DeporteDTO deporte = new DeporteDTO();
+				deporte.setNombre(tipo);
+				;
+				this.agenda.agregarDeporte(deporte);
+			} else if (accion.equals("editar")) {
+				this.deporteSeleccionado.setNombre(tipo);
+				this.agenda.editarDeporte(deporteSeleccionado);
+			}
+			JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
+			this.editorDeporte.cerrar();
+			refrescarDeportes();
 		}
-		else if(accion.equals("editar")) {
-			this.deporteSeleccionado.setNombre(tipo);
-			this.agenda.editarDeporte(deporteSeleccionado);
-		}
-		
-		JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
-		this.editorDeporte.cerrar();
-		
-		refrescarDeportes();
 	}
 	
 	private void refrescarDeportes() {
