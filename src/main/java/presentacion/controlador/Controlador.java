@@ -129,6 +129,7 @@ public class Controlador {
 	private void ventanaAgregarPersona(ActionEvent a) {
 		refrescarVentanaPersonas();
 		this.ventanaPersona.getBtnAgregarPersona().setActionCommand("agregar");
+		this.ventanaPersona.setTitle("Agragar Contacto");
 		this.ventanaPersona.mostrarVentana();
 	}
 	
@@ -137,6 +138,7 @@ public class Controlador {
 		if(fila>-1){
 			this.personaSeleccionada = personasEnTabla.get(fila);
 			this.ventanaPersona.getBtnAgregarPersona().setActionCommand("editar");
+			this.ventanaPersona.setTitle("Editar Contacto");
 			this.ventanaPersona.mostrarPersona(personaSeleccionada);	
 			this.ventanaPersona.mostrarVentana();
 		}

@@ -210,7 +210,7 @@ public class Vista {
 			
 			Object[] fila = { persona.getNombre(), persona.getTelefono(),getFecha(persona.getNacimiento()), persona.getCalle(),
 					 persona.getAltura(), persona.getPiso(),
-					persona.getDepartamento(), persona.getEmail(),persona.getLocalidad() ,provincia, pais,
+					persona.getDepartamento(), persona.getEmail(), pais ,provincia, persona.getLocalidad(),
 					persona.getTipoContacto().getTipo(), persona.getDeporte() }; 
 			this.getModelPersonas().addRow(fila);
 		}

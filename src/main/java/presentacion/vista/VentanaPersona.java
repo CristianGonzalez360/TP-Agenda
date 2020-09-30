@@ -24,6 +24,7 @@ import dto.TipoContactoDTO;
 import java.awt.BorderLayout;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.SwingConstants;
 
 public class VentanaPersona extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -56,9 +57,8 @@ public class VentanaPersona extends JFrame {
 	private VentanaPersona() {
 		super();
 		setResizable(false);
-		this.setTitle("Agregar Contacto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 326, 412);
+		setBounds(100, 100, 326, 430);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -70,11 +70,11 @@ public class VentanaPersona extends JFrame {
 
 		// Labels
 
-		JLabel lblNombreYApellido = new JLabel("Nombre y apellido");
+		JLabel lblNombreYApellido = new JLabel("Nombre y apellido*");
 		lblNombreYApellido.setBounds(10, 4, 113, 14);
 		panel.add(lblNombreYApellido);
 
-		JLabel lblTelfono = new JLabel("Telefono");
+		JLabel lblTelfono = new JLabel("Telefono*");
 		lblTelfono.setBounds(10, 29, 113, 14);
 		panel.add(lblTelfono);
 
@@ -98,7 +98,7 @@ public class VentanaPersona extends JFrame {
 		lblDepartamento.setBounds(10, 179, 113, 14);
 		panel.add(lblDepartamento);
 
-		JLabel lblEmail = new JLabel("Email");
+		JLabel lblEmail = new JLabel("Email*");
 		lblEmail.setBounds(10, 54, 113, 14);
 		panel.add(lblEmail);
 
@@ -106,7 +106,7 @@ public class VentanaPersona extends JFrame {
 		lblLocalidad.setBounds(10, 304, 113, 14);
 		panel.add(lblLocalidad);
 
-		JLabel lblTipoDeContacto = new JLabel("TipoDeContacto");
+		JLabel lblTipoDeContacto = new JLabel("TipoDeContacto*");
 		lblTipoDeContacto.setBounds(10, 79, 113, 14);
 		panel.add(lblTipoDeContacto);
 
@@ -151,8 +151,18 @@ public class VentanaPersona extends JFrame {
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 
-		comboLocalidad = new JComboBox<>();
-		
+		comboLocalidad = new JComboBox<LocalidadDTO>() {
+			@Override
+			public Object getSelectedItem() {
+				Object ret = null;
+				int indice = getSelectedIndex();
+				if(indice != 0) {
+					ret = super.getSelectedItem();
+				}
+				return ret;
+			}
+		};
+			
 		comboLocalidad.setBounds(133, 301, 164, 20);
 		panel.add(comboLocalidad);
 
@@ -192,7 +202,7 @@ public class VentanaPersona extends JFrame {
 		comboProvincia.setBounds(133, 276, 164, 20);
 		panel.add(comboProvincia);
 		
-		JLabel lblDeporte = new JLabel("Deporte");
+		JLabel lblDeporte = new JLabel("Deporte*");
 		lblDeporte.setBounds(10, 229, 46, 14);
 		panel.add(lblDeporte);
 		
@@ -207,6 +217,10 @@ public class VentanaPersona extends JFrame {
 
 		btnAgregarPersona = new JButton("Guardar");
 		panelBotones.add(btnAgregarPersona);
+		
+		JLabel lblInformacion = new JLabel("Los datos marcados con * son obligatorios.");
+		lblInformacion.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblInformacion, BorderLayout.NORTH);
 
 		this.setVisible(false);
 	}
@@ -295,6 +309,7 @@ public class VentanaPersona extends JFrame {
 
 	public void mostrarPaises(List<PaisDTO> paises) {
 		getComboPais().removeAllItems();
+		getComboPais().addItem(new PaisDTO());
 		for (PaisDTO pais : paises) {
 			getComboPais().addItem(pais);
 		}
@@ -302,6 +317,7 @@ public class VentanaPersona extends JFrame {
 
 	protected void mostrarLocalidades(List<LocalidadDTO> localidades) {
 		comboLocalidad.removeAllItems();
+		getComboLocalidad().addItem(new LocalidadDTO());
 		for (LocalidadDTO l : localidades) {
 			comboLocalidad.addItem(l);
 		}
@@ -309,6 +325,7 @@ public class VentanaPersona extends JFrame {
 
 	protected void mostrarProvincias(List<ProvinciaDTO> provincias) {
 		comboProvincia.removeAllItems();
+		comboProvincia.addItem(new ProvinciaDTO());
 		for (ProvinciaDTO p : provincias) {
 			comboProvincia.addItem(p);
 		}
@@ -338,9 +355,9 @@ public class VentanaPersona extends JFrame {
 			provincia = localidad.getProvincia();
 			pais = provincia.getPais();
 		}
-		this.comboLocalidad.setSelectedItem(persona.getLocalidad());
-		this.comboProvincia.setSelectedItem(provincia);
 		this.comboPais.setSelectedItem(pais);
+		this.comboProvincia.setSelectedItem(provincia);
+		this.comboLocalidad.setSelectedItem(persona.getLocalidad());
 		this.comboTipoContacto.setSelectedItem(persona.getTipoContacto());
 		this.comboDeporte.setSelectedItem(persona.getDeporte());
 	}
@@ -384,6 +401,5 @@ public class VentanaPersona extends JFrame {
 			dcm.addElement(d);
 		}
 		getComboDeporte().setModel(dcm);
-		
 	}
 }

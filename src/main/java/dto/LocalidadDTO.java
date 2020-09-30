@@ -11,6 +11,10 @@ public class LocalidadDTO {
 		this.nombre = nombre;
 	}
 
+	public LocalidadDTO() {
+
+	}
+
 	public int getId() {
 		return id;
 	}

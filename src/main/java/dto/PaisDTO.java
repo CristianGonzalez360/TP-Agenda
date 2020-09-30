@@ -15,6 +15,7 @@ public class PaisDTO {
 	}
 
 	public PaisDTO() {
+		this.provincias = new ArrayList<>();
 	}
 
 	public int getId() {

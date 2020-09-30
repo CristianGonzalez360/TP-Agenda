@@ -16,6 +16,7 @@ public class ProvinciaDTO {
 	}
 
 	public ProvinciaDTO() {
+		this.localidades = new ArrayList<>();
 	}
 
 	public List<LocalidadDTO> getLocalidades() {
