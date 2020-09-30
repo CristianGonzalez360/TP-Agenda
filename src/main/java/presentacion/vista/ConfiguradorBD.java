@@ -109,11 +109,16 @@ public class ConfiguradorBD extends JDialog {
 		getRootPane().setDefaultButton(okButton);
 
 		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(c -> dispose());
 		buttonPane.add(cancelButton);
 	}
 
 	public JButton getOkButton() {
 		return okButton;
+	}
+
+	public JButton getCancelButton() {
+		return cancelButton;
 	}
 
 	public static ConfiguradorBD getInstance() {

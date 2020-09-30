@@ -54,6 +54,7 @@ public class Controlador {
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaDeportes = VentanaDeportes.getInstance();
 		this.configuradorBD.getOkButton().addActionListener(c -> guardarDBProperties());
+		this.configuradorBD.getCancelButton().addActionListener(c -> iniciar());
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -134,6 +135,7 @@ public class Controlador {
 	}
 	
 	private void modificarPersona(ActionEvent k) {
+		refrescarVentanaPersonas();
 		int fila = vista.getTablaPersonas().getSelectedRow();
 		if(fila>-1){
 			this.personaSeleccionada = personasEnTabla.get(fila);
@@ -285,7 +287,7 @@ public class Controlador {
 			this.agenda.borrarDeporte(this.deporteSeleccionado);
 			
 			JOptionPane.showMessageDialog(null, "Tipo contacto eliminado exitosamente" );
-			refrescarTiposContacto();
+			refrescarDeportes();
 		}
 	}
 

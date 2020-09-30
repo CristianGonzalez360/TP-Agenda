@@ -6,7 +6,6 @@ import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -16,19 +15,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import dto.DeporteDTO;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
-import dto.TipoContactoDTO;
-
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import persistencia.conexion.Conexion;
 
-public class Vista {
+public class Vista extends JComponent{
 	private JFrame frame;
 	private JTable tablaPersonas;
 	private JButton btnAgregar;

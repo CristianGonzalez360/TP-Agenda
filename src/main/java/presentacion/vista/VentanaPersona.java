@@ -203,7 +203,7 @@ public class VentanaPersona extends JFrame {
 		panel.add(comboProvincia);
 		
 		JLabel lblDeporte = new JLabel("Deporte*");
-		lblDeporte.setBounds(10, 229, 46, 14);
+		lblDeporte.setBounds(10, 229, 113, 14);
 		panel.add(lblDeporte);
 		
 		comboDeporte = new JComboBox<>();
