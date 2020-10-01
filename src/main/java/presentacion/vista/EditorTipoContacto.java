@@ -28,8 +28,8 @@ public class EditorTipoContacto extends JDialog {
 	}
 
 	private EditorTipoContacto() {
-		setBounds(new Rectangle(0, 0, 314, 108));
-		
+		setBounds(100, 100, 314, 108);
+		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		JPanel panelCentral = new JPanel();
 		

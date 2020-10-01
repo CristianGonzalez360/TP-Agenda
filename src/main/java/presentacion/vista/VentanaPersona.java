@@ -2,19 +2,17 @@ package presentacion.vista;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import com.toedter.calendar.JDateChooser;
-
 import dto.DeporteDTO;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
@@ -26,7 +24,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.SwingConstants;
 
-public class VentanaPersona extends JFrame {
+public class VentanaPersona extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -57,6 +55,7 @@ public class VentanaPersona extends JFrame {
 	private VentanaPersona() {
 		super();
 		setResizable(false);
+		setModal(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 326, 430);
 		contentPane = new JPanel();

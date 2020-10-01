@@ -202,6 +202,7 @@ public class Controlador {
 			JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
 			this.editorTipoContacto.cerrar();
 			refrescarTiposContacto();
+			refrescarTabla();
 		}
 	}
 	
@@ -252,6 +253,7 @@ public class Controlador {
 			JOptionPane.showMessageDialog(null, "Datos guardados exitosamente");
 			this.editorDeporte.cerrar();
 			refrescarDeportes();
+			refrescarTabla();
 		}
 	}
 	

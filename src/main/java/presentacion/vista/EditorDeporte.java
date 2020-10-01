@@ -2,7 +2,6 @@ package presentacion.vista;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -27,8 +26,8 @@ public class EditorDeporte extends JDialog {
 	}
 
 	private EditorDeporte() {
-		setBounds(new Rectangle(0, 0, 314, 108));
-		
+		setBounds(100, 100, 314, 108);
+		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		JPanel panelCentral = new JPanel();
 		

@@ -1,5 +1,5 @@
 DROP DATABASE `agenda`;
-CREATE DATABASE `agenda` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE `agenda`;
 USE `agenda`;
 CREATE TABLE `pais` (
   `idPais` int NOT NULL AUTO_INCREMENT,
@@ -46,10 +46,8 @@ CREATE TABLE `personas` (
   `tipoDeContacto` int NOT NULL,
   `deporte` int,
   PRIMARY KEY (`idPersona`),
-  KEY `fk_localidad_idx` (`localidad`),
   KEY `fk_tipoDeContacto_idx` (`tipoDeContacto`),
   KEY `fk_deporte_idx` (`deporte`),
   CONSTRAINT `fk_deporte` FOREIGN KEY (`deporte`) REFERENCES `deporte` (`id`),
-  CONSTRAINT `fk_localidad` FOREIGN KEY (`localidad`) REFERENCES `localidad` (`idlocalidad`),
   CONSTRAINT `fk_tipoDeContacto` FOREIGN KEY (`tipoDeContacto`) REFERENCES `tipocontacto` (`idTipoContacto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;

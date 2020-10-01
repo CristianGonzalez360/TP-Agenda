@@ -3,18 +3,14 @@ package presentacion.vista;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 import javax.swing.SwingConstants;
-
 import dto.DeporteDTO;
-import dto.TipoContactoDTO;
 
 public class VentanaDeportes extends JDialog{
 	
@@ -34,7 +30,7 @@ public class VentanaDeportes extends JDialog{
 	
 	private VentanaDeportes() {
 		setBounds(100, 100, 410, 423);
-		setAlwaysOnTop(true);
+		setModal(true);
 		JPanel panel = new JPanel(new BorderLayout());
 		setContentPane(panel);
 		
@@ -54,7 +50,7 @@ public class VentanaDeportes extends JDialog{
 		
 		panel.add(panelBotones, BorderLayout.SOUTH);
 		
-		lblDeportes = new JLabel("Tipos de Contacto");
+		lblDeportes = new JLabel("Deportes");
 		lblDeportes.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblDeportes, BorderLayout.NORTH);
 		

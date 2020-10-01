@@ -18,8 +18,8 @@ public class VistaEditor extends JDialog{
 	private PanelEditorLocalidad editorLocalodad;
 
 	public VistaEditor() {
-		setBounds(new Rectangle(0, 0, 500, 300));
-		setLocationRelativeTo(null);
+		setBounds(new Rectangle(100, 100, 500, 300));
+		
 		setModal(true);
 		panelVistas = new JPanel();
 		layout = new CardLayout(0, 0);
