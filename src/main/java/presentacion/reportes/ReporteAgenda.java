@@ -1,6 +1,5 @@
 package presentacion.reportes;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class ReporteAgenda
 		Map<String, Object> parametersMap = new HashMap<String, Object>();
 		parametersMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));		
     	try		{
-			this.reporte = (JasperReport) JRLoader.loadObjectFromFile( "reportes" + File.separator + "ReporteAgenda.jasper" );
+			this.reporte = (JasperReport) JRLoader.loadObject(ReporteAgenda.class.getResource("/recursos/ReporteAgenda.jasper"));
 			this.reporteLleno = JasperFillManager.fillReport(this.reporte, parametersMap, 
 					new JRBeanCollectionDataSource(personas));
     		log.info("Se cargó correctamente el reporte");
