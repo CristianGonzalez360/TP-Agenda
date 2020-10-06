@@ -288,7 +288,7 @@ public class Controlador {
 			this.deporteSeleccionado = this.deportes.get(fila);
 			this.agenda.borrarDeporte(this.deporteSeleccionado);
 			
-			JOptionPane.showMessageDialog(null, "Tipo contacto eliminado exitosamente" );
+			JOptionPane.showMessageDialog(null, "Deporte eliminado exitosamente" );
 			refrescarDeportes();
 		}
 	}
