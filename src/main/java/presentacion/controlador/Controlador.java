@@ -54,7 +54,7 @@ public class Controlador {
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaDeportes = VentanaDeportes.getInstance();
 		this.configuradorBD.getOkButton().addActionListener(c -> guardarDBProperties());
-		this.configuradorBD.getCancelButton().addActionListener(c -> iniciar());
+		this.configuradorBD.getCancelButton().addActionListener(c -> cancelar());
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnEditar().addActionListener(k -> modificarPersona(k));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -83,6 +83,15 @@ public class Controlador {
 		}
 		else {
 			configurarBD();
+		}
+	}
+	
+	private void cancelar() {
+		if(Conexion.getConexion().estaConectado()) {
+			mostrar();
+		}
+		else {
+			System.exit(0);
 		}
 	}
 	

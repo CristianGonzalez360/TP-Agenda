@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 public class Conexion {
 	public static Conexion instancia;
 	private Connection connection;
+	private boolean conectado;
 	private DBProperties dbprops = DBProperties.getInstance();
 	private Logger log = Logger.getLogger(Conexion.class);
 
@@ -59,6 +60,11 @@ public class Conexion {
 		} catch (Exception e) {
 			log.error("Conexión fallida", e);
 		}
+		conectado = ret;
 		return ret;
+	}
+	
+	public boolean estaConectado() {
+		return conectado;
 	}
 }

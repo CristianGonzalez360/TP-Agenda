@@ -42,7 +42,7 @@ public class DBProperties {
 	private void readProperties() {
 		dbProperties = new Properties();
 		try {
-			dbProperties.load(new FileInputStream("config/dataBase.properties"));
+			dbProperties.load(new FileInputStream(System.getProperty("user.dir") +"/config/dataBase.properties"));
 		} catch (IOException e) {
 			log.error("No se encontro archivo de configuración.");
 			log.info("creando archivo de configuración");
@@ -56,7 +56,7 @@ public class DBProperties {
 
 	public void guardar() {
 		try {
-			FileOutputStream fos = new FileOutputStream("config/dataBase.properties");
+			FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir") + "/config/dataBase.properties");
 			dbProperties.store(fos, null);
 		} catch (Exception e) {
 			e.printStackTrace();
