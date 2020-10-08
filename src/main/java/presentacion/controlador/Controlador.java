@@ -82,6 +82,7 @@ public class Controlador {
 			mostrar();
 		}
 		else {
+			JOptionPane.showMessageDialog(null, "Error al conectarse a la Base de Datos", "ERROR", JOptionPane.ERROR_MESSAGE);
 			configurarBD();
 		}
 	}
